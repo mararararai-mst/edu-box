@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>教材ボックス ｜ アイデアをカタチに</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "UD デジタル 教科書体 NP-B", "Hiragino Maru Gothic ProN", "Meiryo", sans-serif;
+  background: linear-gradient(135deg, #fff9ec 0%, #fde7e7 100%);
+  color: #333;
+  padding: 24px 16px 60px;
+  min-height: 100vh;
+}
+.wrap { max-width: 880px; margin: 0 auto; }
+
+/* ── ヘッダー ── */
+header {
+  text-align: center;
+  margin-bottom: 36px;
+  padding: 56px 24px 40px;
+  background: #fffaf2;
+  border-radius: 22px;
+  border: 1px solid #f0e6d6;
+  box-shadow: 0 2px 18px rgba(0,0,0,0.035);
+}
+.header-mark {
+  width: 36px;
+  height: 3px;
+  background: linear-gradient(90deg, #d8af6a 0%, #d63384 100%);
+  border-radius: 999px;
+  margin: 0 auto 22px;
+}
+header h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #2c1810;
+  margin-bottom: 14px;
+  letter-spacing: 0.08em;
+}
+header .sub {
+  font-size: 15px;
+  color: #8a6e4e;
+  letter-spacing: 0.05em;
+  line-height: 1.7;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+.usage-note {
+  display: inline-block;
+  font-size: 11.5px;
+  color: #888;
+  padding: 5px 16px;
+  background: white;
+  border: 1px solid #ead8be;
+  border-radius: 999px;
+  letter-spacing: 0.02em;
+}
+
+/* ── カテゴリ ── */
+.category {
+  margin-bottom: 32px;
+}
+.category-title {
+  font-size: 18px;
+  font-weight: bold;
+  padding: 8px 18px;
+  border-radius: 30px;
+  display: inline-block;
+  margin-bottom: 14px;
+  margin-left: 8px;
+  cursor: pointer;
+  transition: transform .12s ease, box-shadow .12s ease;
+  user-select: none;
+}
+.category-title:hover {
+  transform: scale(1.04);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+}
+.category-title::after {
+  content: " ▾";
+  font-size: 12px;
+  opacity: 0.6;
+}
+body.filtered .category-title.active::after { content: " ✕"; opacity: 1; }
+.cat-kyozai .category-title { background: #ffe3ec; color: #D63384; border: 2px solid #D63384; }
+.cat-design .category-title { background: #d8f3dc; color: #2E7D32; border: 2px solid #2E7D32; }
+.cat-school .category-title { background: #cfe0f5; color: #1565C0; border: 2px solid #1565C0; }
+.cat-ks     .category-title { background: #fff4c2; color: #b27900; border: 2px solid #b27900; }
+.filter-hint {
+  text-align: center;
+  font-size: 12px;
+  color: #888;
+  margin: -16px 0 24px;
+  font-style: italic;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+}
+.card {
+  display: block;
+  background: white;
+  border-radius: 16px;
+  padding: 18px;
+  text-decoration: none;
+  color: #333;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+  border-left: 8px solid;
+  transition: transform .15s, box-shadow .15s;
+  position: relative;
+}
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0,0,0,.12);
+}
+.card .icon {
+  font-size: 32px;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.card .title {
+  font-size: 17px;
+  font-weight: bold;
+  color: #222;
+  margin-bottom: 4px;
+}
+.card .desc {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+.card .words {
+  font-size: 11px;
+  color: #555;
+  background: #fff9ec;
+  padding: 6px 10px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  line-height: 1.7;
+  border-left: 3px solid #b27900;
+}
+.card .meta {
+  font-size: 11px;
+  color: #888;
+  background: #f5f5f0;
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.cat-kyozai .card { border-left-color: #D63384; }
+.cat-design .card { border-left-color: #2E7D32; }
+.cat-school .card { border-left-color: #1565C0; }
+.cat-ks     .card { border-left-color: #b27900; }
+
+footer {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 12px;
+  color: #999;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="header-mark"></div>
+  <h1>教材ボックス</h1>
+  <div class="sub">アイデアをカタチに。</div>
+  <div class="usage-note">校務PCで使うときは このHTMLをダウンロードして開いてね</div>
+</header>
+
+<div class="filter-hint">💡 カテゴリのタイトル（▾付きの帯）をクリックすると、そのカテゴリだけに絞れます</div>
+
+<!-- 教材系 -->
+<div class="category cat-kyozai">
+  <div class="category-title" onclick="filterCategory('cat-kyozai', this)">📚 教材系（生徒が使う・授業で使う）</div>
+  <div class="cards">
+
+    <a class="card" href="https://mararararai-mst.github.io/ikimono-wakeru/" target="_blank">
+      <div class="icon">🌱</div>
+      <div class="title">生物分類ゲーム</div>
+      <div class="desc">秘密のルール当てゲーム＋カード＋クイズ＋まとめマップ</div>
+      <span class="meta">中1理科 P.22-25</span>
+    </a>
+
+    <a class="card" href="https://mararararai-mst.github.io/ion-chu3/" target="_blank">
+      <div class="icon">⚗️</div>
+      <div class="title">イオンラボ 中3版</div>
+      <div class="desc">イオン式・反応式の確認</div>
+      <span class="meta">中3理科</span>
+    </a>
+
+    <a class="card" href="https://mararararai-mst.github.io/chem-gym/" target="_blank">
+      <div class="icon">🧪💪</div>
+      <div class="title">化学反応式トレーニングジム</div>
+      <div class="desc">力だめし→STEP0〜5→確認テスト→ファイナルチャレンジ。係数のつけ方を体験で習得</div>
+      <span class="meta">中2理科 単元1</span>
+    </a>
+
+    <a class="card" href="https://mararararai-mst.github.io/kazu-no-bunkai/" target="_blank">
+      <div class="icon">🔢</div>
+      <div class="title">いくつといくつ</div>
+      <div class="desc">数の分解アプリ（支援学級向け）</div>
+      <span class="meta">小1</span>
+    </a>
+
+    <a class="card" href="https://mararararai-mst.github.io/stock-game/" target="_blank">
+      <div class="icon">📈</div>
+      <div class="title">10日間マーケット</div>
+      <div class="desc">株のしくみを学ぶシミュレーションゲーム</div>
+      <span class="meta">経済・社会</span>
+    </a>
+
+    <a class="card" href="https://mararararai-mst.github.io/bunrui-challenge/" target="_blank">
+      <div class="icon">🧪</div>
+      <div class="title">物質の分類チャレンジ</div>
+      <div class="desc">単体・化合物・混合物をドラッグで分類（説明資料＋5ステップ教材）</div>
+      <span class="meta">中2理科 P.33</span>
+    </a>
+
+  </div>
+</div>
+
+<!-- 授業デザイン系 -->
+<div class="category cat-design">
+  <div class="category-title" onclick="filterCategory('cat-design', this)">🎨 授業デザイン系（教師が授業設計に使う）</div>
+  <div class="cards">
+
+    <a class="card" href="https://mararararai-mst.github.io/kokugo-design/" target="_blank">
+      <div class="icon">📝</div>
+      <div class="title">国語の授業デザイン</div>
+      <div class="desc">全体フローの可視化</div>
+      <span class="meta">国語</span>
+    </a>
+
+  </div>
+</div>
+
+<!-- まとめマップ -->
+<div class="category cat-ks">
+  <div class="category-title" onclick="filterCategory('cat-ks', this)">📊 まとめマップ</div>
+  <div style="font-size:13px;color:#666;margin:4px 0 12px;padding:6px 12px;background:#fff8e8;border-left:4px solid #c8961e;border-radius:4px;">
+    🌱 <strong>中1 ／ 生物2章「植物の分類」</strong>（P.31〜44 ／ 全7マップ）
+  </div>
+  <div class="cards">
+
+    <a class="card" href="https://mararararai-mst.github.io/matome-maps/chu1-p31-hana-no-tsukuri.html" target="_blank">
+      <div class="icon">🌸</div>
+      <div class="title">花のつくり</div>
+      <div class="words">花弁 ／ がく ／ おしべ ／ めしべ ／ 離弁花 ／ 合弁花 ／ 子房 ／ 胚珠 ／ 柱頭 ／ やく ／ 花粉</div>
+      <span class="meta">中1理科 P.31</span>
+    </a>
+
+    <a class="card" href="https://mararararai-mst.github.io/matome-maps/chu1-p34-35-kajitsu-tsukuranai-hana.html" target="_blank">
+      <div class="icon">🌲</div>
+      <div class="title">果実をつくらない花</div>
+      <div class="words">マツ ／ 雌花 ／ 雄花 ／ りん片 ／ 子房 ／ 胚珠 ／ 花粉のう ／ 受粉 ／ 種子 ／ 裸子植物 ／ 被子植物 ／ 種子植物</div>
+      <span class="meta">中1理科 P.34-35</span>
+    </a>
+
+    <a class="card" href="https://mararararai-mst.github.io/matome-maps/chu1-p36-37-ha-ne-de-bunrui.html" target="_blank">
+      <div class="icon">🌿</div>
+      <div class="title">葉や根のつくり</div>
+      <div class="words">葉脈 ／ 主脈 ／ 側脈 ／ 根 ／ 観察 ／ 分類</div>
+      <span class="meta">中1理科 P.36-37</span>
+    </a>
+
+    <a class="card" href="https://mararararai-mst.github.io/matome-maps/chu1-p38-39-hishi-shokubutsu-bunrui.html" target="_blank">
+      <div class="icon">🌱</div>
+      <div class="title">被子植物の分類（双子葉類・単子葉類）</div>
+      <div class="words">被子植物 ／ 双子葉類 ／ 単子葉類 ／ 子葉 ／ 網状脈 ／ 平行脈 ／ 主根 ／ 側根 ／ ひげ根</div>
+      <span class="meta">中1理科 P.38-39</span>
+    </a>
+
+    <a class="card" href="https://mararararai-mst.github.io/matome-maps/chu1-p40-shida-shokubutsu.html" target="_blank">
+      <div class="icon">🌿</div>
+      <div class="title">シダ植物</div>
+      <div class="words">シダ植物 ／ 葉 ／ 茎 ／ 根 ／ 種子 ／ 胞子 ／ 胞子のう</div>
+      <span class="meta">中1理科 P.40</span>
+    </a>
+
+    <a class="card" href="https://mararararai-mst.github.io/matome-maps/chu1-p41-koke-shokubutsu.html" target="_blank">
+      <div class="icon">🍀</div>
+      <div class="title">コケ植物</div>
+      <div class="words">コケ植物 ／ 葉 ／ 茎 ／ 根 ／ 仮根 ／ 胞子 ／ 胞子のう ／ 雄株 ／ 雌株</div>
+      <span class="meta">中1理科 P.41</span>
+    </a>
+
+    <a class="card" href="https://mararararai-mst.github.io/matome-maps/chu1-p43-44-shokubutsu-zentai-bunrui.html" target="_blank">
+      <div class="icon">🌳</div>
+      <div class="title">植物の分類まとめ（全体ツリー）</div>
+      <div class="words">植物 ／ 種子植物 ／ 被子植物 ／ 裸子植物 ／ 双子葉類 ／ 単子葉類 ／ 種子をつくらない植物 ／ シダ植物 ／ コケ植物</div>
+      <span class="meta">中1理科 P.43-44 ＝ 単元まとめ</span>
+    </a>
+
+  </div>
+
+  <div style="font-size:13px;color:#666;margin:18px 0 12px;padding:6px 12px;background:#fff0f5;border-left:4px solid #d63384;border-radius:4px;">
+    🧪 <strong>中2 ／ 化学1章「化学変化と原子・分子」</strong>（P.32〜 ／ 全1マップ）
+  </div>
+  <div class="cards">
+
+    <a class="card" href="https://mararararai-mst.github.io/matome-maps/chu2-p32-33-tantai-kagobutsu.html" target="_blank">
+      <div class="icon">🧪</div>
+      <div class="title">単体と化合物・物質の分類</div>
+      <div class="words">原子 ／ 分子 ／ 元素 ／ 元素記号 ／ 化学式 ／ 物質 ／ 純粋な物質 ／ 混合物 ／ 単体 ／ 化合物</div>
+      <span class="meta">中2理科 P.32-33（見開き）</span>
+    </a>
+
+  </div>
+</div>
+
+<!-- 学校運営系 -->
+<div class="category cat-school">
+  <div class="category-title" onclick="filterCategory('cat-school', this)">📖 学校運営系（教師全体向け）</div>
+  <div class="cards">
+
+    <a class="card" href="https://mararararai-mst.github.io/teachers-bible/" target="_blank">
+      <div class="icon">📖</div>
+      <div class="title">TEACHER'S BIBLE</div>
+      <div class="desc">とどろみの森学園 2026 教師バイブル</div>
+      <span class="meta">学校運営</span>
+    </a>
+
+  </div>
+</div>
+
+<footer>
+  最終更新：2026-05-09 ／ 全8プロジェクト＋まとめマップ8件
+</footer>
+
+</div>
+
+<script>
+function filterCategory(category, titleEl) {
+  const allCats = document.querySelectorAll('.category');
+  const allTitles = document.querySelectorAll('.category-title');
+  const isActive = titleEl.classList.contains('active');
+
+  if (isActive) {
+    // 解除：全カテゴリ表示
+    allCats.forEach(c => c.style.display = '');
+    allTitles.forEach(t => t.classList.remove('active'));
+    document.body.classList.remove('filtered');
+  } else {
+    // フィルタ：このカテゴリだけ表示
+    allCats.forEach(c => {
+      c.style.display = c.classList.contains(category) ? '' : 'none';
+    });
+    allTitles.forEach(t => t.classList.remove('active'));
+    titleEl.classList.add('active');
+    document.body.classList.add('filtered');
+    // フィルタ後にスムーズスクロール（カテゴリの上に）
+    titleEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+</script>
+
+</body>
+</html>
