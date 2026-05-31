@@ -10,6 +10,8 @@
 .start-title { font-size: 30px; margin: 12px 0 6px; }
 .start-sub { color: var(--text-soft); font-size: 20px; margin-bottom: 24px; }
 .btn.big { font-size: 24px; padding: 16px 40px; }
+.mode-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.mode-hint { margin-top: 12px; font-size: 16px; color: var(--text-soft); }
 .who-now { margin-top: 18px; font-size: 18px; color: var(--text-soft); }
 
 /* ゲーム */
@@ -54,6 +56,7 @@
 .opt .glyph.rotate  { transform: rotate(180deg); }
 .opt.correct { border-color: var(--accent); background: var(--accent-soft); }
 .opt.wrong { animation: shake .4s; opacity: .4; pointer-events: none; }
+.opt.chosen { border-color: #ef9a9a; opacity: .55; }
 @keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)} 40%{transform:translateX(8px)} 60%{transform:translateX(-6px)} 80%{transform:translateX(6px)} }
 
 /* 〇マーク演出 */
@@ -76,7 +79,9 @@
 .result { text-align: center; padding: 40px 24px; }
 .result-emoji { font-size: 72px; }
 .result h2 { font-size: 32px; margin: 10px 0; }
-.result-stars { font-size: 40px; letter-spacing: 4px; margin: 12px 0 24px; }
+.result-stars { font-size: 40px; letter-spacing: 4px; margin: 12px 0 12px; }
+.result-detail { font-size: 20px; color: var(--text-soft); margin: 4px 0 22px; line-height: 1.6; }
+.result-detail b { color: var(--pink); font-size: 28px; margin: 0 3px; }
 .result-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 
 /* だれ チップ */
@@ -105,4 +110,5 @@
 .rec-rate { color: var(--accent); font-weight: 700; }
 .rec-miss { color: var(--text-soft); font-size: 16px; }
 .rec-miss b { color: var(--pink); font-size: 22px; margin: 0 2px; }
+.rec-test { color: var(--blue); font-weight: 700; font-size: 16px; }
 .rec-empty { color: var(--text-soft); font-size: 16px; padding: 12px 0; }

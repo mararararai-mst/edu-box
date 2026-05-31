@@ -27,7 +27,11 @@
     <div class="start-emoji">🌷</div>
     <h2 class="start-title">ただしい ひらがなを えらぼう！</h2>
     <p class="start-sub">えを みて、たりない もじを いれてね</p>
-    <button class="btn big" id="start-btn">▶ はじめる</button>
+    <div class="mode-buttons">
+      <button class="btn big" id="practice-btn">✏️ れんしゅう</button>
+      <button class="btn big secondary" id="test-btn">💮 テスト</button>
+    </div>
+    <p class="mode-hint">れんしゅう＝なんども できる ／ テスト＝1かいずつ・てんすうが でる</p>
     <div class="who-now" id="who-now"></div>
   </div>
 
@@ -44,9 +48,10 @@
 
   <!-- 結果 -->
   <div id="result" class="card result hidden">
-    <div class="result-emoji">🎉</div>
+    <div class="result-emoji" id="result-emoji">🎉</div>
     <h2 id="result-title">はなまる ◯こ！</h2>
     <div class="result-stars" id="result-stars"></div>
+    <div class="result-detail hidden" id="result-detail"></div>
     <div class="result-actions">
       <button class="btn big" id="again-btn">🔁 もういちど</button>
       <button class="btn ghost big" id="finish-btn">おわる</button>

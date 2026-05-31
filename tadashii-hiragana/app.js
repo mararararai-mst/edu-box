@@ -42,10 +42,13 @@ const cfg = Object.assign({ diff: 'normal', sound: false, len: 10 }, MST.load(CF
 const saveCfg = () => MST.save(CFG_KEY, cfg);
 
 let studentId = null;          // 記録対象（null = きろくなし）
+let mode = 'practice';         // 'practice'（れんしゅう）| 'test'（テスト）
 let qIndex = 0;                // セット内の現在の問題番号
-let solved = 0;                // このセットで正解した数
+let solved = 0;                // 進んだ問題数
+let score = 0;                 // テストでの正解数
 let target = null;             // 正解の文字
-let firstTry = true;           // 今の問題を1回で当てたか
+let firstTry = true;           // 今の問題を1回で当てたか（練習用）
+let testMissed = [];           // テストで間違えた字
 
 // ===== ユーティリティ =====
 const $ = (id) => document.getElementById(id);
@@ -99,6 +102,17 @@ function bumpRecord(field, missChar) {
   if (field === 'q') { r.q++; r.last = MST.today(); }
   if (field === 'first') r.first++;
   if (missChar) r.miss[missChar] = (r.miss[missChar] || 0) + 1;
+  recs[studentId] = r;
+  MST.save(REC_KEY, recs);
+}
+function saveTestResult(sc, total, missed) {
+  if (!studentId) return;
+  const recs = loadRecords();
+  const r = recs[studentId] || { q: 0, first: 0, miss: {}, last: '' };
+  if (!r.tests) r.tests = [];
+  r.tests.push({ date: MST.today(), score: sc, total, missed });
+  r.tests = r.tests.slice(-12);
+  r.last = MST.today();
   recs[studentId] = r;
   MST.save(REC_KEY, recs);
 }
@@ -174,10 +188,30 @@ function nextQuestion() {
   });
 
   renderStars();
-  speak(word.w);
+  if (mode === 'practice') speak(word.w);
 }
 
 function onPick(btn, o) {
+  if (mode === 'test') {
+    // テスト：1回で次へ（やり直しなし・責めない）
+    document.querySelectorAll('.opt').forEach(el => el.classList.add('done'));
+    const blankTile = document.querySelector('.tile.blank');
+    if (blankTile) { blankTile.classList.remove('blank'); blankTile.classList.add('filled'); }
+    if (o.correct) {
+      btn.classList.add('correct');
+      score++;
+    } else {
+      btn.classList.add('chosen');
+      testMissed.push(target);
+      const correctOpt = [...document.querySelectorAll('.opt')]
+        .find(b => { const g = b.querySelector('.glyph'); return g.textContent === target && g.className === 'glyph none'; });
+      if (correctOpt) correctOpt.classList.add('correct');
+    }
+    solved++;
+    setTimeout(nextQuestion, 850);
+    return;
+  }
+  // れんしゅう：正解するまで何度でも
   if (o.correct) {
     btn.classList.add('correct', 'done');
     document.querySelectorAll('.opt').forEach(el => el.classList.add('done'));
@@ -200,14 +234,21 @@ function onPick(btn, o) {
 }
 
 function renderStars() {
+  if (mode === 'test') {
+    $('stars').textContent = `もんだい ${Math.min(qIndex, cfg.len)} / ${cfg.len}`;
+    return;
+  }
   let s = '';
   for (let i = 0; i < cfg.len; i++) s += (i < solved ? '⭐' : '☆');
   $('stars').textContent = s;
 }
 
 // ===== 画面遷移 =====
-function startSet() {
-  qIndex = 0; solved = 0;
+function startSet(m) {
+  mode = (m === 'test') ? 'test' : 'practice';
+  qIndex = 0; solved = 0; score = 0; testMissed = [];
+  if (mode === 'test' && !studentId) MST.toast('きろくを のこすなら 👤だれ? を えらんでね');
+  $('speak-btn').style.display = (mode === 'practice') ? '' : 'none';
   $('start').classList.add('hidden');
   $('result').classList.add('hidden');
   $('game').classList.remove('hidden');
@@ -216,9 +257,27 @@ function startSet() {
 function showResult() {
   $('game').classList.add('hidden');
   $('result').classList.remove('hidden');
-  $('result-title').textContent = `はなまる ${solved}こ！`;
-  $('result-stars').textContent = '⭐'.repeat(solved) || '🌱';
-  MST.confetti();
+  const detail = $('result-detail');
+  if (mode === 'test') {
+    $('result-emoji').textContent = score === cfg.len ? '💯' : '💮';
+    $('result-title').textContent = `${cfg.len}もんちゅう ${score}もん せいかい！`;
+    $('result-stars').textContent = '⭐'.repeat(score) || '🌱';
+    const uniqMissed = [...new Set(testMissed)];
+    if (detail) {
+      detail.innerHTML = uniqMissed.length
+        ? `まちがえた字： ${uniqMissed.map(c => `<b>${c}</b>`).join(' ')}`
+        : 'ぜんぶ せいかい！ すごい！';
+      detail.classList.remove('hidden');
+    }
+    saveTestResult(score, cfg.len, uniqMissed);
+    if (score === cfg.len) MST.confetti();
+  } else {
+    $('result-emoji').textContent = '🎉';
+    $('result-title').textContent = `はなまる ${solved}こ！`;
+    $('result-stars').textContent = '⭐'.repeat(solved) || '🌱';
+    if (detail) { detail.textContent = ''; detail.classList.add('hidden'); }
+    MST.confetti();
+  }
 }
 function toStart() {
   $('game').classList.add('hidden');
@@ -268,27 +327,33 @@ function renderRecords() {
   let any = false;
   students.forEach(s => {
     const r = recs[s.id];
-    if (!r || !r.q) return;
+    const tests = (r && r.tests) || [];
+    if (!r || (!r.q && !tests.length)) return;
     any = true;
-    const rate = Math.round((r.first / r.q) * 100);
-    const miss = Object.entries(r.miss).sort((a, b) => b[1] - a[1]).slice(0, 5);
+    const rate = r.q ? Math.round((r.first / r.q) * 100) + '%' : '—';
+    const miss = Object.entries(r.miss || {}).sort((a, b) => b[1] - a[1]).slice(0, 5);
     const missHtml = miss.length
       ? miss.map(([ch]) => `<b>${ch}</b>`).join('')
       : '<span style="color:var(--accent)">なし</span>';
+    const testHtml = tests.length
+      ? tests.slice(-3).reverse().map(t => `${t.date.slice(5)} ${t.score}/${t.total}`).join('　')
+      : '<span style="color:var(--text-soft)">まだ</span>';
     const row = document.createElement('div');
     row.className = 'rec-row';
     row.innerHTML = `
       <span class="rec-name">${s.name}</span>
-      <span class="rec-rate">せいかい ${rate}%</span>
-      <span class="rec-miss">つまずき: ${missHtml}</span>`;
+      <span class="rec-rate">れんしゅう ${rate}</span>
+      <span class="rec-miss">つまずき: ${missHtml}</span>
+      <span class="rec-test">テスト: ${testHtml}</span>`;
     box.appendChild(row);
   });
   if (!any) box.innerHTML = '<div class="rec-empty">まだ きろくが ありません。</div>';
 }
 
 // ===== イベント =====
-$('start-btn').addEventListener('click', startSet);
-$('again-btn').addEventListener('click', startSet);
+$('practice-btn').addEventListener('click', () => startSet('practice'));
+$('test-btn').addEventListener('click', () => startSet('test'));
+$('again-btn').addEventListener('click', () => startSet(mode));
 $('finish-btn').addEventListener('click', toStart);
 $('speak-btn').addEventListener('click', () => {
   // 表示中のことばを読み上げ
