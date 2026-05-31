@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ただしいひらがな｜ことば あなうめ</title>
+<meta name="description" content="えとことばの あなうめで、ただしいひらがなを えらぶ れんしゅうアプリ。支援学級・1年生むけ。">
+<meta property="og:title" content="ただしいひらがな">
+<meta property="og:description" content="えとことばの あなうめで、ただしいひらがなを えらぶ れんしゅう。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mararararai-mst.github.io/edu-box/tadashii-hiragana/">
+<link rel="stylesheet" href="common.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="appbar">
+  <h1>✏️ ただしいひらがな</h1>
+  <div class="header-actions">
+    <button class="btn ghost" id="who-btn">👤 だれ?</button>
+    <button class="btn ghost" id="teacher-btn">📊 せんせい</button>
+  </div>
+</div>
+
+<div class="container">
+  <!-- スタート -->
+  <div id="start" class="card start-card">
+    <div class="start-emoji">🌷</div>
+    <h2 class="start-title">ただしい ひらがなを えらぼう！</h2>
+    <p class="start-sub">えを みて、たりない もじを いれてね</p>
+    <button class="btn big" id="start-btn">▶ はじめる</button>
+    <div class="who-now" id="who-now"></div>
+  </div>
+
+  <!-- ゲーム -->
+  <div id="game" class="card game hidden">
+    <div class="stars" id="stars"></div>
+    <div class="qtop">
+      <div class="emoji" id="emoji">🐕</div>
+      <button class="speak-btn" id="speak-btn" title="もういちど きく">🔊</button>
+    </div>
+    <div class="word" id="word"></div>
+    <div class="options" id="options"></div>
+  </div>
+
+  <!-- 結果 -->
+  <div id="result" class="card result hidden">
+    <div class="result-emoji">🎉</div>
+    <h2 id="result-title">はなまる ◯こ！</h2>
+    <div class="result-stars" id="result-stars"></div>
+    <div class="result-actions">
+      <button class="btn big" id="again-btn">🔁 もういちど</button>
+      <button class="btn ghost big" id="finish-btn">おわる</button>
+    </div>
+  </div>
+</div>
+
+<!-- だれが あそぶ -->
+<dialog id="who-dialog" class="dialog">
+  <h2>👤 だれが あそぶ？</h2>
+  <p class="dim">きろくは えらんだ こに のこります。</p>
+  <div class="chip-row" id="who-chips"></div>
+  <div class="dialog-actions">
+    <button class="btn" id="who-close">きめた</button>
+  </div>
+</dialog>
+
+<!-- せんせい がめん -->
+<dialog id="teacher-dialog" class="dialog">
+  <h2>📊 せんせい がめん</h2>
+
+  <h3>せってい</h3>
+  <div class="setting-row">
+    <span>むずかしさ</span>
+    <div class="seg" id="diff-seg">
+      <button data-diff="easy">やさしい</button>
+      <button data-diff="normal">ふつう</button>
+      <button data-diff="hard">むずかしい</button>
+      <button data-diff="mix">まぜる</button>
+    </div>
+  </div>
+  <div class="setting-row">
+    <span>おとで ヒント</span>
+    <label class="switch"><input type="checkbox" id="sound-toggle"><span class="slider"></span></label>
+  </div>
+  <div class="setting-row">
+    <span>1セットの もんだいすう</span>
+    <div class="seg" id="len-seg">
+      <button data-len="5">5</button>
+      <button data-len="10">10</button>
+      <button data-len="15">15</button>
+    </div>
+  </div>
+
+  <h3>きろく（こども べつ）</h3>
+  <div id="records"></div>
+
+  <div class="dialog-actions">
+    <button class="btn ghost danger" id="reset-records">きろくを けす</button>
+    <button class="btn" id="teacher-close">とじる</button>
+  </div>
+</dialog>
+
+<script src="common.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
