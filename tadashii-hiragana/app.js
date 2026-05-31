@@ -38,7 +38,7 @@ const POOL = 'あいうえおかきくけこさしすせそたちつてとなに
 // ===== 設定・状態 =====
 const CFG_KEY = 'mst_1g_hiragana_cfg';
 const REC_KEY = 'mst_1g_hiragana';
-const cfg = Object.assign({ diff: 'normal', sound: false, len: 10 }, MST.load(CFG_KEY, {}));
+const cfg = Object.assign({ diff: 'normal', sound: false, se: true, len: 10 }, MST.load(CFG_KEY, {}));
 const saveCfg = () => MST.save(CFG_KEY, cfg);
 
 let studentId = null;          // 記録対象（null = きろくなし）
@@ -91,6 +91,39 @@ function showMaru() {
   m.className = 'maru';
   document.body.appendChild(m);
   setTimeout(() => m.remove(), 900);
+}
+
+// ===== 効果音（WebAudio生成・オフライン・音声ファイル不要） =====
+let audioCtx = null;
+function ensureAudio() {
+  if (!cfg.se) return null;
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    return audioCtx;
+  } catch (e) { return null; }
+}
+function tone(ctx, freq, start, dur, gain = 0.16) {
+  const o = ctx.createOscillator();
+  const g = ctx.createGain();
+  o.type = 'sine';
+  o.frequency.value = freq;
+  o.connect(g); g.connect(ctx.destination);
+  const t0 = ctx.currentTime + start;
+  g.gain.setValueAtTime(0.0001, t0);
+  g.gain.exponentialRampToValueAtTime(gain, t0 + 0.02);
+  g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+  o.start(t0); o.stop(t0 + dur + 0.03);
+}
+function playCorrect() {
+  const ctx = ensureAudio(); if (!ctx) return;
+  tone(ctx, 880.0, 0,    0.16);   // A5
+  tone(ctx, 1318.5, 0.11, 0.22);  // E6（ピンポン♪）
+}
+function playFanfare(perfect) {
+  const ctx = ensureAudio(); if (!ctx) return;
+  const notes = perfect ? [523.25, 659.25, 783.99, 1046.5] : [523.25, 659.25, 783.99];
+  notes.forEach((f, i) => tone(ctx, f, i * 0.13, 0.3, 0.15));
 }
 
 // ===== 記録 =====
@@ -200,6 +233,7 @@ function onPick(btn, o) {
     if (o.correct) {
       btn.classList.add('correct');
       score++;
+      playCorrect();
     } else {
       btn.classList.add('chosen');
       testMissed.push(target);
@@ -224,6 +258,7 @@ function onPick(btn, o) {
     MST.toast(pick(['すごい！', 'せいかい！', 'やったね！', 'はなまる！']));
     MST.confetti();
     showMaru();
+    playCorrect();
     setTimeout(nextQuestion, 1100);
   } else {
     firstTry = false;
@@ -247,6 +282,7 @@ function renderStars() {
 function startSet(m) {
   mode = (m === 'test') ? 'test' : 'practice';
   qIndex = 0; solved = 0; score = 0; testMissed = [];
+  ensureAudio();   // クリック中に音を温める（自動再生制限の回避）
   if (mode === 'test' && !studentId) MST.toast('きろくを のこすなら 👤だれ? を えらんでね');
   $('speak-btn').style.display = (mode === 'practice') ? '' : 'none';
   $('start').classList.add('hidden');
@@ -271,12 +307,14 @@ function showResult() {
     }
     saveTestResult(score, cfg.len, uniqMissed);
     if (score === cfg.len) MST.confetti();
+    playFanfare(score === cfg.len);
   } else {
     $('result-emoji').textContent = '🎉';
     $('result-title').textContent = `はなまる ${solved}こ！`;
     $('result-stars').textContent = '⭐'.repeat(solved) || '🌱';
     if (detail) { detail.textContent = ''; detail.classList.add('hidden'); }
     MST.confetti();
+    playFanfare(true);
   }
 }
 function toStart() {
@@ -318,6 +356,7 @@ function syncSeg() {
   document.querySelectorAll('#diff-seg button').forEach(b => b.classList.toggle('active', b.dataset.diff === cfg.diff));
   document.querySelectorAll('#len-seg button').forEach(b => b.classList.toggle('active', +b.dataset.len === cfg.len));
   $('sound-toggle').checked = cfg.sound;
+  $('se-toggle').checked = cfg.se;
 }
 function renderRecords() {
   const recs = loadRecords();
@@ -375,6 +414,7 @@ $('len-seg').addEventListener('click', e => {
   cfg.len = +b.dataset.len; saveCfg(); syncSeg();
 });
 $('sound-toggle').addEventListener('change', e => { cfg.sound = e.target.checked; saveCfg(); });
+$('se-toggle').addEventListener('change', e => { cfg.se = e.target.checked; saveCfg(); if (cfg.se) { ensureAudio(); playCorrect(); } });
 $('reset-records').addEventListener('click', () => {
   MST.save(REC_KEY, {});
   renderRecords();
