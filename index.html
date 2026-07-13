@@ -1,9 +1,16 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>教材ボックス ｜ アイデアをカタチに</title>
+<meta name="description" content="授業で使えるインタラクティブ教材・シミュレーション・まとめマップの一覧。中学理科を中心に、小学校・支援学級・社会科まで。">
+<meta property="og:title" content="教材ボックス ｜ アイデアをカタチに">
+<meta property="og:description" content="授業で使えるインタラクティブ教材・シミュレーション・まとめマップの一覧。中学理科を中心に、小学校・支援学級・社会科まで。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mararararai-mst.github.io/edu-box/">
+<meta property="og:site_name" content="教材ボックス">
+<meta name="twitter:card" content="summary">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
@@ -18,7 +25,7 @@ body {
 /* ── ヘッダー ── */
 header {
   text-align: center;
-  margin-bottom: 36px;
+  margin-bottom: 30px;
   padding: 56px 24px 40px;
   background: #fffaf2;
   border-radius: 22px;
@@ -58,10 +65,53 @@ header .sub {
   letter-spacing: 0.02em;
 }
 
-/* ── カテゴリ ── */
-.category {
-  margin-bottom: 32px;
+/* ── 検索・フィルタ ── */
+.searchbar { text-align: center; margin: 0 0 14px; }
+.searchbar input {
+  width: min(480px, 100%);
+  padding: 10px 20px;
+  border-radius: 999px;
+  border: 1.5px solid #ead8be;
+  background: #fff;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
 }
+.searchbar input:focus {
+  border-color: #d8af6a;
+  box-shadow: 0 0 0 3px rgba(216,175,106,.18);
+}
+.filter-hint {
+  text-align: center;
+  font-size: 12px;
+  color: #888;
+  margin: 0 0 20px;
+  font-style: italic;
+}
+#active-filter { text-align: center; margin: -8px 0 18px; }
+#active-filter:empty { display: none; }
+.chip {
+  display: inline-block;
+  font-size: 12.5px;
+  background: #fff;
+  border: 1.5px solid #d8af6a;
+  color: #8a6e4e;
+  padding: 4px 6px 4px 14px;
+  border-radius: 999px;
+}
+.chip button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 12px;
+  color: #c0392b;
+  font-family: inherit;
+  padding: 0 6px;
+}
+.no-hit { text-align: center; color: #999; padding: 40px 0 60px; font-size: 14px; }
+
+/* ── カテゴリ ── */
+.category { margin-bottom: 32px; }
 .category-title {
   font-size: 18px;
   font-weight: bold;
@@ -87,17 +137,27 @@ body.filtered .category-title.active::after { content: " ✕"; opacity: 1; }
 .cat-chu1   .category-title { background: #fff4d6; color: #B57E00; border: 2px solid #B57E00; }
 .cat-chu2   .category-title { background: #e0f1e6; color: #2E7D32; border: 2px solid #2E7D32; }
 .cat-chu3   .category-title { background: #ffe3ec; color: #D63384; border: 2px solid #D63384; }
-.cat-other  .category-title { background: #ece7f5; color: #6A4FB1; border: 2px solid #6A4FB1; }
+.cat-elem   .category-title { background: #ece7f5; color: #6A4FB1; border: 2px solid #6A4FB1; }
+.cat-social .category-title { background: #e0f2f1; color: #00796B; border: 2px solid #00796B; }
+.cat-rec    .category-title { background: #ffe9d6; color: #c05f00; border: 2px solid #c05f00; }
 .cat-design .category-title { background: #d8f3dc; color: #2E7D32; border: 2px solid #2E7D32; }
 .cat-school .category-title { background: #cfe0f5; color: #1565C0; border: 2px solid #1565C0; }
 .cat-ks     .category-title { background: #fff4c2; color: #b27900; border: 2px solid #b27900; }
-.filter-hint {
-  text-align: center;
-  font-size: 12px;
-  color: #888;
-  margin: -16px 0 24px;
-  font-style: italic;
+
+/* ── まとめマップの章帯（折りたたみ） ── */
+.chapter-band {
+  font-size: 13px;
+  color: #666;
+  margin: 14px 0 12px;
+  padding: 8px 12px;
+  border-left: 4px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  user-select: none;
 }
+.chapter-band:hover { filter: brightness(.97); }
+.chapter-band .tri { display: inline-block; width: 1.1em; color: #999; font-size: 11px; }
+.chapter-band .count { color: #999; }
 
 .cards {
   display: grid;
@@ -112,7 +172,7 @@ body.filtered .category-title.active::after { content: " ✕"; opacity: 1; }
   text-decoration: none;
   color: #333;
   box-shadow: 0 2px 8px rgba(0,0,0,.06);
-  border-left: 8px solid;
+  border-left: 8px solid #ccc;
   transition: transform .15s, box-shadow .15s;
   position: relative;
 }
@@ -155,19 +215,34 @@ body.filtered .category-title.active::after { content: " ✕"; opacity: 1; }
   padding: 2px 8px;
   border-radius: 10px;
 }
+.new-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #ff5a7a;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 999px;
+  letter-spacing: 0.06em;
+}
 
 /* 分野ごとのカード左ボーダー色 */
-.card.field-chem  { border-left-color: #D63384; }   /* 化学 ピンク */
-.card.field-phys  { border-left-color: #1565C0; }   /* 物理 青 */
-.card.field-bio   { border-left-color: #2E7D32; }   /* 生物 緑 */
-.card.field-earth { border-left-color: #E07A1A; }   /* 地学 オレンジ */
-.card.field-other { border-left-color: #6A4FB1; }   /* その他 紫 */
+.card.field-chem   { border-left-color: #D63384; }   /* 化学 ピンク */
+.card.field-phys   { border-left-color: #1565C0; }   /* 物理 青 */
+.card.field-bio    { border-left-color: #2E7D32; }   /* 生物 緑 */
+.card.field-earth  { border-left-color: #E07A1A; }   /* 地学 オレンジ */
+.card.field-other  { border-left-color: #6A4FB1; }   /* 支援・算数など 紫 */
+.card.field-social { border-left-color: #00796B; }   /* 社会 ティール */
 
 .cat-design .card { border-left-color: #2E7D32; }
 .cat-school .card { border-left-color: #1565C0; }
 .cat-ks     .card { border-left-color: #b27900; }
+.cat-ks     .card.field-bio  { border-left-color: #2E7D32; }
+.cat-ks     .card.field-chem { border-left-color: #D63384; }
 
-/* 分野バッジ（meta の前に置く） */
+/* 分野バッジ（クリックで絞り込み） */
 .field-badge {
   display: inline-block;
   font-size: 10.5px;
@@ -177,12 +252,15 @@ body.filtered .category-title.active::after { content: " ✕"; opacity: 1; }
   margin-right: 4px;
   color: #fff;
   letter-spacing: 0.04em;
+  cursor: pointer;
 }
-.field-badge.chem  { background: #D63384; }
-.field-badge.phys  { background: #1565C0; }
-.field-badge.bio   { background: #2E7D32; }
-.field-badge.earth { background: #E07A1A; }
-.field-badge.other { background: #6A4FB1; }
+.field-badge:hover { opacity: .85; }
+.field-badge.chem   { background: #D63384; }
+.field-badge.phys   { background: #1565C0; }
+.field-badge.bio    { background: #2E7D32; }
+.field-badge.earth  { background: #E07A1A; }
+.field-badge.other  { background: #6A4FB1; }
+.field-badge.social { background: #00796B; }
 
 footer {
   text-align: center;
@@ -202,432 +280,379 @@ footer {
   <div class="usage-note">校務PCで使うときは このHTMLをダウンロードして開いてね</div>
 </header>
 
-<div class="filter-hint">💡 カテゴリのタイトル（▾付きの帯）をクリックすると、そのカテゴリだけに絞れます</div>
+<div class="searchbar"><input id="q" type="search" placeholder="🔍 教材名・キーワードで検索（例：イオン、たし算、分類）"></div>
+<div class="filter-hint">💡 カテゴリの帯（▾）やカードの分野バッジをクリックすると絞り込めます</div>
+<div id="active-filter"></div>
 
-<!-- 中1理科 -->
-<div class="category cat-chu1">
-  <div class="category-title" onclick="filterCategory('cat-chu1', this)">🌱 中1理科</div>
-  <div class="cards">
+<div id="content"></div>
 
-    <a class="card field-bio" href="https://mararararai-mst.github.io/ikimono-wakeru/" target="_blank">
-      <div class="icon">🌱</div>
-      <div class="title">生物分類ゲーム</div>
-      <div class="desc">秘密のルール当てゲーム＋カード＋クイズ＋まとめマップ</div>
-      <span class="field-badge bio">生物</span><span class="meta">中1理科 P.22-25</span>
-    </a>
-
-    <a class="card field-chem" href="https://mararararai-mst.github.io/white-powder-lab/" target="_blank">
-      <div class="icon">🕵️</div>
-      <div class="title">白い粉末ミステリーラボ</div>
-      <div class="desc">ラベルのとれた4つの白い粉末の正体を、ルーペ・水・加熱の実験で推理。ランク認定つき</div>
-      <span class="field-badge chem">化学</span><span class="meta">中1理科 P.84-89</span>
-    </a>
-
-    <a class="card field-chem" href="https://mararararai-mst.github.io/gas-burner-kentei/" target="_blank">
-      <div class="icon">🔥</div>
-      <div class="title">ガスバーナー教習所</div>
-      <div class="desc">学科（粒子で見る炎）→技能検定→路上教習（事件8連発）→卒業検定。合格で免許証を印刷</div>
-      <span class="field-badge chem">化学</span><span class="meta">中1理科 P.86</span>
-    </a>
-
-  </div>
-</div>
-
-<!-- 中2理科 -->
-<div class="category cat-chu2">
-  <div class="category-title" onclick="filterCategory('cat-chu2', this)">🧪 中2理科</div>
-  <div class="cards">
-
-    <a class="card field-chem" href="https://mararararai-mst.github.io/chem-gym/" target="_blank">
-      <div class="icon">🧪💪</div>
-      <div class="title">化学反応式トレーニングジム</div>
-      <div class="desc">力だめし→STEP0〜5→確認テスト→ファイナルチャレンジ。係数のつけ方を体験で習得</div>
-      <span class="field-badge chem">化学</span><span class="meta">中2理科 単元1</span>
-    </a>
-
-    <a class="card field-chem" href="https://mararararai-mst.github.io/bunrui-challenge/" target="_blank">
-      <div class="icon">🧪</div>
-      <div class="title">物質の分類チャレンジ</div>
-      <div class="desc">単体・化合物・混合物をドラッグで分類（説明資料＋5ステップ教材）</div>
-      <span class="field-badge chem">化学</span><span class="meta">中2理科 P.33</span>
-    </a>
-
-    <a class="card field-chem" href="https://mararararai-mst.github.io/mass-conservation/" target="_blank">
-      <div class="icon">⚖️</div>
-      <div class="title">質量保存の法則ラボ</div>
-      <div class="desc">燃やす・まぜる・気体発生の4実験を「粒子の見える化」スイッチで。予想→確認、練習問題つき</div>
-      <span class="field-badge chem">化学</span><span class="meta">中2理科 P.169</span>
-    </a>
-
-  </div>
-</div>
-
-<!-- 中3理科 -->
-<div class="category cat-chu3">
-  <div class="category-title" onclick="filterCategory('cat-chu3', this)">⚗️ 中3理科</div>
-  <div class="cards">
-
-    <a class="card field-chem" href="https://mararararai-mst.github.io/ion-chu3/" target="_blank">
-      <div class="icon">⚗️</div>
-      <div class="title">イオンラボ 中3版</div>
-      <div class="desc">イオン式・反応式の確認</div>
-      <span class="field-badge chem">化学</span><span class="meta">中3理科</span>
-    </a>
-
-    <a class="card field-chem" href="https://mararararai-mst.github.io/denshi-no-ouchi/" target="_blank">
-      <div class="icon">⚛️🏠</div>
-      <div class="title">電子のおうち</div>
-      <div class="desc">電子配置でイオンの成り立ちを理解。1価/2価がなぜそうなるか・陽イオンと陰イオンの違いを操作で発見</div>
-      <span class="field-badge chem">化学</span><span class="meta">中3理科 発展</span>
-    </a>
-
-    <a class="card field-chem" href="https://mararararai-mst.github.io/aqueous-identification/" target="_blank">
-      <div class="icon">🧪🌈</div>
-      <div class="title">水溶液同定ラボ</div>
-      <div class="desc">BTB・電流・フェノール・Mg・匂いの5観察で7つの水溶液を完全に見分ける(実験モード＋同定パズル)</div>
-      <span class="field-badge chem">化学</span><span class="meta">中3理科 単元1-2</span>
-    </a>
-
-    <a class="card field-chem" href="https://mararararai-mst.github.io/ionka-keikou/" target="_blank">
-      <div class="icon">⚖️</div>
-      <div class="title">金属のイオンへのなりやすさ（実験7）</div>
-      <div class="desc">3×3マイクロプレートでMg・Zn・Cuと3つの硫酸塩水溶液の組み合わせを観察。常時イオン表示／ステップ実行で9パターンを順送り／結果まとめ表でMg＞Zn＞Cuを導出</div>
-      <span class="field-badge chem">化学</span><span class="meta">中3理科 単元1-3 p.52-55 実験7</span>
-    </a>
-
-    <a class="card field-chem" href="https://mararararai-mst.github.io/acid-cell/" target="_blank">
-      <div class="icon">⚡</div>
-      <div class="title">うすい塩酸の電池モデル（図4）</div>
-      <div class="desc">亜鉛板＋銅板＋うすい塩酸の電池。水素発生と電圧不安定（分極）を可視化し、ダニエル電池への必然性を理解する導入教材。自動再生／7段階ステップ実行／銅板を磨くボタン</div>
-      <span class="field-badge chem">化学</span><span class="meta">中3理科 単元1-3 p.51 図4</span>
-    </a>
-
-    <a class="card field-chem" href="https://mararararai-mst.github.io/daniel-cell/" target="_blank">
-      <div class="icon">🔋</div>
-      <div class="title">ダニエル電池シミュレーション</div>
-      <div class="desc">電子の流れ・イオンの動き・水溶液の色変化を可視化。一次電池なので消耗したら「電池を新しくする」。自動再生／7段階ステップ実行</div>
-      <span class="field-badge chem">化学</span><span class="meta">中3理科 単元1-3</span>
-    </a>
-
-    <a class="card field-chem" href="https://mararararai-mst.github.io/neutralization-simulator/" target="_blank">
-      <div class="icon">⚗️💧</div>
-      <div class="title">中和シミュレーション</div>
-      <div class="desc">HCl⇔NaOH の2モード。1滴で陽イオン+陰イオンが入り、H⁺とOH⁻が出会うと水になる瞬間を可視化。BTB色＋4種イオンの棒グラフ＋滴下ごとの折れ線グラフ＋加え過ぎでアルカリ性まで体験</div>
-      <span class="field-badge chem">化学</span><span class="meta">中3理科 酸・アルカリと中和</span>
-    </a>
-
-    <a class="card field-chem" href="https://mararararai-mst.github.io/neutralization-builder/" target="_blank">
-      <div class="icon">⚗️🧱</div>
-      <div class="title">中和反応式ビルダー</div>
-      <div class="desc">3酸×3アルカリ＝9パターンの中和反応式を体験で組み立てる。STAGE 0デモ／1ドラッグ／2係数±／3空欄埋め／4ファイナルの階段構造。BaSO₄白沈殿アニメ付き</div>
-      <span class="field-badge chem">化学</span><span class="meta">中3理科 酸・アルカリと中和 反応式</span>
-    </a>
-
-  </div>
-</div>
-
-<!-- その他 -->
-<div class="category cat-other">
-  <div class="category-title" onclick="filterCategory('cat-other', this)">🎓 その他（支援学級・社会など）</div>
-  <div class="cards">
-
-    <a class="card field-other" href="https://mararararai-mst.github.io/blackhole-game/" target="_blank">
-      <div class="icon">🕳️</div>
-      <div class="title">ブラックホール</div>
-      <div class="desc">紙とペンだけの2人対戦（海外でバズった思考ゲーム）。三角21マスに交互に1〜10を書き、最後に残った1マス＝ブラックホールのとなりを色ごとに合計、小さい方が勝ち。1手ずつ再生＆その場で対戦できるインタラクティブ説明＋印刷用の対戦シートPDFつき</div>
-      <span class="field-badge other">レク</span><span class="meta">全学年・学級レク／思考力（紙とペン）</span>
-    </a>
-
-    <a class="card field-other" href="tadashii-hiragana/" target="_blank">
-      <div class="icon">✏️</div>
-      <div class="title">ただしいひらがな</div>
-      <div class="desc">えとことばの あなうめで、正しい字を えらぶ（支援学級向け）</div>
-      <span class="field-badge other">支援</span><span class="meta">小1・ひらがな</span>
-    </a>
-
-    <a class="card field-other" href="https://mararararai-mst.github.io/kazu-no-bunkai/" target="_blank">
-      <div class="icon">🔢</div>
-      <div class="title">いくつといくつ</div>
-      <div class="desc">数の分解アプリ（支援学級向け）</div>
-      <span class="field-badge other">支援</span><span class="meta">小1</span>
-    </a>
-
-    <a class="card field-other" href="https://mararararai-mst.github.io/nanbanme/" target="_blank">
-      <div class="icon">🥇</div>
-      <div class="title">なんばんめ マスター</div>
-      <div class="desc">順序数を6ステージで。前から○番目・上下・左右、そして教室の席（二次元）まで。集合数（3人）と順序数（3人目）の違いを○つけで体感。れんしゅう＆テスト（単元まるごとテストつき）・正解はピンポン音・タップで読み上げ</div>
-      <span class="field-badge other">算数</span><span class="meta">小1 なんばんめ 教科書p.34-37</span>
-    </a>
-
-    <a class="card field-other" href="https://mararararai-mst.github.io/tashizan-app/" target="_blank">
-      <div class="icon">➕</div>
-      <div class="title">あわせて いくつ ふえると いくつ</div>
-      <div class="desc">ブロックや金魚を動かして「あわせる・ふえる」を操作→式に。絵⇄式の「しきさがし」、4択の「けいさんカード」（連続正解で称号👑）まで。たし算のはじめの一歩</div>
-      <span class="field-badge other">算数</span><span class="meta">小1 たし算 教科書p.2-12</span>
-    </a>
-
-    <a class="card field-other" href="https://mararararai-mst.github.io/hikizan-app/" target="_blank">
-      <div class="icon">➖</div>
-      <div class="title">のこりは いくつ</div>
-      <div class="desc">クッキーや金魚を「とる」と消えて、のこりを数える操作→式に。絵⇄式の「しきさがし」、4択の「けいさんカード」（連続正解で称号👑）まで。ひき算のはじめの一歩（くり下がりなし）</div>
-      <span class="field-badge other">算数</span><span class="meta">小1 ひき算（のこりは いくつ）</span>
-    </a>
-
-    <a class="card field-other" href="https://mararararai-mst.github.io/docchi-ooi-app/" target="_blank">
-      <div class="icon">🆚</div>
-      <div class="title">どっちが いくつ おおい？</div>
-      <div class="desc">🐰と🥕のように2つを左そろえで並べ、1対1対応の線ではみ出た分＝「ちがい」を見つける求差アプリ。式「おおい−すくない＝ちがい」に。連続正解で称号👑つき</div>
-      <span class="field-badge other">算数</span><span class="meta">小1 ひき算（ちがいは いくつ・求差）</span>
-    </a>
-
-    <a class="card field-other" href="https://mararararai-mst.github.io/stock-game/" target="_blank">
-      <div class="icon">📈</div>
-      <div class="title">10日間マーケット</div>
-      <div class="desc">株のしくみを学ぶシミュレーションゲーム</div>
-      <span class="field-badge other">社会</span><span class="meta">経済・社会</span>
-    </a>
-
-    <a class="card field-other" href="https://mararararai-mst.github.io/seitou-seiji-sim/" target="_blank">
-      <div class="icon">🗳️</div>
-      <div class="title">政党政治シミュレーター</div>
-      <div class="desc">A〜D党の議席を変えて選挙→与党・野党に分かれて内閣ができる。連立・政権交代を動かして体感する公民の体験アプリ</div>
-      <span class="field-badge other">社会</span><span class="meta">中3公民 政党 p.88-89</span>
-    </a>
-
-    <a class="card field-other" href="https://mararararai-mst.github.io/seitou-seiji-puzzle/" target="_blank">
-      <div class="icon">🏛️</div>
-      <div class="title">政党政治のしくみ 組み立てパズル</div>
-      <div class="desc">国民→選挙→政党→与党/野党→内閣 のしくみを、ピースをドラッグして完成させる公民の体験アプリ</div>
-      <span class="field-badge other">社会</span><span class="meta">中3公民 政党 p.88-89</span>
-    </a>
-
-    <a class="card field-other" href="https://mararararai-mst.github.io/bubble-pop/" target="_blank">
-      <div class="icon">🫧</div>
-      <div class="title">シャボン玉ぷちぷち</div>
-      <div class="desc">タップでシャボン玉を割る指あそび。たまに動物の絵柄が入った玉も登場</div>
-      <span class="field-badge other">幼児</span><span class="meta">1歳〜</span>
-    </a>
-
-  </div>
-</div>
-
-<!-- 授業デザイン系 -->
-<div class="category cat-design">
-  <div class="category-title" onclick="filterCategory('cat-design', this)">🎨 授業デザイン系（教師が授業設計に使う）</div>
-  <div class="cards">
-
-    <a class="card" href="https://mararararai-mst.github.io/kokugo-design/" target="_blank">
-      <div class="icon">📝</div>
-      <div class="title">国語の授業デザイン</div>
-      <div class="desc">全体フローの可視化</div>
-      <span class="meta">国語</span>
-    </a>
-
-  </div>
-</div>
-
-<!-- まとめマップ -->
-<div class="category cat-ks">
-  <div class="category-title" onclick="filterCategory('cat-ks', this)">📊 まとめマップ</div>
-  <div style="font-size:13px;color:#666;margin:4px 0 12px;padding:6px 12px;background:#fff8e8;border-left:4px solid #c8961e;border-radius:4px;">
-    🌱 <strong>中1 ／ 生物2章「植物の分類」</strong>（P.31〜44 ／ 全7マップ）
-  </div>
-  <div class="cards">
-
-    <a class="card" href="https://mararararai-mst.github.io/matome-maps/chu1-p31-hana-no-tsukuri.html" target="_blank">
-      <div class="icon">🌸</div>
-      <div class="title">花のつくり</div>
-      <div class="words">花弁 ／ がく ／ おしべ ／ めしべ ／ 離弁花 ／ 合弁花 ／ 子房 ／ 胚珠 ／ 柱頭 ／ やく ／ 花粉</div>
-      <span class="meta">中1理科 P.31</span>
-    </a>
-
-    <a class="card" href="https://mararararai-mst.github.io/matome-maps/chu1-p34-35-kajitsu-tsukuranai-hana.html" target="_blank">
-      <div class="icon">🌲</div>
-      <div class="title">果実をつくらない花</div>
-      <div class="words">マツ ／ 雌花 ／ 雄花 ／ りん片 ／ 子房 ／ 胚珠 ／ 花粉のう ／ 受粉 ／ 種子 ／ 裸子植物 ／ 被子植物 ／ 種子植物</div>
-      <span class="meta">中1理科 P.34-35</span>
-    </a>
-
-    <a class="card" href="https://mararararai-mst.github.io/matome-maps/chu1-p36-37-ha-ne-de-bunrui.html" target="_blank">
-      <div class="icon">🌿</div>
-      <div class="title">葉や根のつくり</div>
-      <div class="words">葉脈 ／ 主脈 ／ 側脈 ／ 根 ／ 観察 ／ 分類</div>
-      <span class="meta">中1理科 P.36-37</span>
-    </a>
-
-    <a class="card" href="https://mararararai-mst.github.io/matome-maps/chu1-p38-39-hishi-shokubutsu-bunrui.html" target="_blank">
-      <div class="icon">🌱</div>
-      <div class="title">被子植物の分類（双子葉類・単子葉類）</div>
-      <div class="words">被子植物 ／ 双子葉類 ／ 単子葉類 ／ 子葉 ／ 網状脈 ／ 平行脈 ／ 主根 ／ 側根 ／ ひげ根</div>
-      <span class="meta">中1理科 P.38-39</span>
-    </a>
-
-    <a class="card" href="https://mararararai-mst.github.io/matome-maps/chu1-p40-shida-shokubutsu.html" target="_blank">
-      <div class="icon">🌿</div>
-      <div class="title">シダ植物</div>
-      <div class="words">シダ植物 ／ 葉 ／ 茎 ／ 根 ／ 種子 ／ 胞子 ／ 胞子のう</div>
-      <span class="meta">中1理科 P.40</span>
-    </a>
-
-    <a class="card" href="https://mararararai-mst.github.io/matome-maps/chu1-p41-koke-shokubutsu.html" target="_blank">
-      <div class="icon">🍀</div>
-      <div class="title">コケ植物</div>
-      <div class="words">コケ植物 ／ 葉 ／ 茎 ／ 根 ／ 仮根 ／ 胞子 ／ 胞子のう ／ 雄株 ／ 雌株</div>
-      <span class="meta">中1理科 P.41</span>
-    </a>
-
-    <a class="card" href="https://mararararai-mst.github.io/matome-maps/chu1-p43-44-shokubutsu-zentai-bunrui.html" target="_blank">
-      <div class="icon">🌳</div>
-      <div class="title">植物の分類まとめ（全体ツリー）</div>
-      <div class="words">植物 ／ 種子植物 ／ 被子植物 ／ 裸子植物 ／ 双子葉類 ／ 単子葉類 ／ 種子をつくらない植物 ／ シダ植物 ／ コケ植物</div>
-      <span class="meta">中1理科 P.43-44 ＝ 単元まとめ</span>
-    </a>
-
-  </div>
-
-  <div style="font-size:13px;color:#666;margin:18px 0 12px;padding:6px 12px;background:#f0fff4;border-left:4px solid #2E7D32;border-radius:4px;">
-    🐾 <strong>中1 ／ 生物3章「動物の分類」</strong>（P.46〜57 ／ 全10マップ）
-  </div>
-  <div class="cards">
-
-    <a class="card field-bio" href="https://mararararai-mst.github.io/matome-maps/chu1-p46-50-mijika-doubutsu.html" target="_blank">
-      <div class="icon">🐟</div>
-      <div class="title">身近な動物の分類</div>
-      <div class="words">脊椎動物 ／ 無脊椎動物 ／ 背骨の有無 ／ 種類数の違い</div>
-      <span class="meta">中1理科 P.46〜50</span>
-    </a>
-
-    <a class="card field-bio" href="https://mararararai-mst.github.io/matome-maps/chu1-p52-karada-no-tsukuri.html" target="_blank">
-      <div class="icon">🦎</div>
-      <div class="title">からだのつくり</div>
-      <div class="words">生活場所（水中⇄陸上）／ うろこ ／ 羽毛 ／ 毛 ／ あし ／ 乾燥に強い体表</div>
-      <span class="meta">中1理科 P.52</span>
-    </a>
-
-    <a class="card field-bio" href="https://mararararai-mst.github.io/matome-maps/chu1-p52-kokyuu-no-shikata.html" target="_blank">
-      <div class="icon">🐸</div>
-      <div class="title">呼吸のしかた</div>
-      <div class="words">えら ／ 肺 ／ 皮膚呼吸 ／ 両生類（幼生→成体で変化）</div>
-      <span class="meta">中1理科 P.52</span>
-    </a>
-
-    <a class="card field-bio" href="https://mararararai-mst.github.io/matome-maps/chu1-p52-ko-no-umarekata.html" target="_blank">
-      <div class="icon">🥚</div>
-      <div class="title">子のうまれ方</div>
-      <div class="words">卵生（殻なし・弾力・かたい殻）／ 胎生 ／ 水中の卵 ／ 陸上の卵</div>
-      <span class="meta">中1理科 P.52</span>
-    </a>
-
-    <a class="card field-bio" href="https://mararararai-mst.github.io/matome-maps/chu1-p52-53-sekitsui-doubutsu.html" target="_blank">
-      <div class="icon">🐠</div>
-      <div class="title">脊椎動物の分類（5グループ比較表）</div>
-      <div class="words">魚類 ／ 両生類 ／ ハチュウ類 ／ 鳥類 ／ 哺乳類 ／ 体表・呼吸・うまれ方で比較</div>
-      <span class="meta">中1理科 P.52〜53 ＝ 単元まとめ</span>
-    </a>
-
-    <a class="card field-bio" href="https://mararararai-mst.github.io/matome-maps/chu1-p55-sessoku-doubutsu.html" target="_blank">
-      <div class="icon">🦀</div>
-      <div class="title">節足動物</div>
-      <div class="words">外骨格 ／ 節 ／ 関節 ／ 甲殻類 ／ 昆虫類 ／ クモ・サソリ ／ ムカデ</div>
-      <span class="meta">中1理科 P.55</span>
-    </a>
-
-    <a class="card field-bio" href="https://mararararai-mst.github.io/matome-maps/chu1-p55-nantai-doubutsu.html" target="_blank">
-      <div class="icon">🦑</div>
-      <div class="title">軟体動物</div>
-      <div class="words">外とう膜 ／ イカ・タコ（殻なし）／ アサリ・サザエ（殻あり）／ 各部位の名前</div>
-      <span class="meta">中1理科 P.55</span>
-    </a>
-
-    <a class="card field-bio" href="https://mararararai-mst.github.io/matome-maps/chu1-p56-57-sonota-musekitsui.html" target="_blank">
-      <div class="icon">🌊</div>
-      <div class="title">その他の無脊椎動物</div>
-      <div class="words">ウニ・ヒトデ ／ クラゲ・イソギンチャク ／ ミミズ ／ 放射状・針・円柱状の節</div>
-      <span class="meta">中1理科 P.56〜57</span>
-    </a>
-
-    <a class="card field-bio" href="https://mararararai-mst.github.io/matome-maps/chu1-doubutsu-zentai-bunrui.html" target="_blank">
-      <div class="icon">🌳</div>
-      <div class="title">動物の分類まとめ（全体ツリー・主要語句）</div>
-      <div class="words">動物 ／ 脊椎動物 ／ 無脊椎動物 ／ 魚類〜哺乳類 ／ 節足動物（甲殻類・昆虫類・クモ/サソリ・ムカデ）／ 軟体動物 ／ その他の無脊椎動物</div>
-      <span class="meta">中1理科 P.46-57 ＝ まず全体像（入口）</span>
-    </a>
-
-    <a class="card field-bio" href="https://mararararai-mst.github.io/matome-maps/chu1-doubutsu-zentai-full.html" target="_blank">
-      <div class="icon">🗺️</div>
-      <div class="title">動物の分類まとめ（完成版・全語句）</div>
-      <div class="words">全体ツリー＋各グループの特徴（体表・呼吸・うまれ方・外骨格・節・関節 など）＋代表動物（コイ・カエル・カニ・イカ…）／全40語</div>
-      <span class="meta">中1理科 P.46-57 ＝ 見本（答え）</span>
-    </a>
-
-  </div>
-
-  <div style="font-size:13px;color:#666;margin:18px 0 12px;padding:6px 12px;background:#fff0f5;border-left:4px solid #d63384;border-radius:4px;">
-    🧪 <strong>中2 ／ 化学1章「化学変化と原子・分子」</strong>（P.32〜 ／ 全1マップ）
-  </div>
-  <div class="cards">
-
-    <a class="card" href="https://mararararai-mst.github.io/matome-maps/chu2-p32-33-tantai-kagobutsu.html" target="_blank">
-      <div class="icon">🧪</div>
-      <div class="title">単体と化合物・物質の分類</div>
-      <div class="words">原子 ／ 分子 ／ 元素 ／ 元素記号 ／ 化学式 ／ 物質 ／ 純粋な物質 ／ 混合物 ／ 単体 ／ 化合物</div>
-      <span class="meta">中2理科 P.32-33（見開き）</span>
-    </a>
-
-    <a class="card" href="https://mararararai-mst.github.io/matome-maps/chu2-p55-sanka-wo-fusegu.html" target="_blank">
-      <div class="icon">🛡️</div>
-      <div class="title">酸化を防ぐくふう</div>
-      <div class="words">酸化 ／ さび ／ 酸素 ／ 塗装 ／ めっき ／ トタン ／ ブリキ ／ 脱酸素剤 ／ 酸化防止剤 ／ 酸素にふれさせない</div>
-      <span class="meta">中2理科 化学1章（発展）</span>
-    </a>
-
-  </div>
-</div>
-
-<!-- 学校運営系 -->
-<div class="category cat-school">
-  <div class="category-title" onclick="filterCategory('cat-school', this)">📖 学校運営系（教師全体向け）</div>
-  <div class="cards">
-
-    <a class="card" href="https://mararararai-mst.github.io/teachers-bible/" target="_blank">
-      <div class="icon">📖</div>
-      <div class="title">TEACHER'S BIBLE</div>
-      <div class="desc">とどろみの森学園 2026 教師バイブル</div>
-      <span class="meta">学校運営</span>
-    </a>
-
-  </div>
-</div>
-
-<footer>
-  最終更新：2026-07-13 ／ 全24プロジェクト＋まとめマップ18件
-</footer>
+<footer id="footer"></footer>
 
 </div>
 
 <script>
-function filterCategory(category, titleEl) {
-  const allCats = document.querySelectorAll('.category');
-  const allTitles = document.querySelectorAll('.category-title');
-  const isActive = titleEl.classList.contains('active');
+/* ════════════════════════════════════════════════
+   教材データ（新しい教材はここに1エントリ足すだけ。
+   件数・章のマップ数・フッターは自動計算されます）
+   badge: 生物/化学/物理/地学/支援/算数/社会/レク/幼児
+   added: 追加日（21日以内は NEW バッジが自動でつく）
+════════════════════════════════════════════════ */
+const ITEMS = [
 
-  if (isActive) {
-    // 解除：全カテゴリ表示
-    allCats.forEach(c => c.style.display = '');
-    allTitles.forEach(t => t.classList.remove('active'));
-    document.body.classList.remove('filtered');
-  } else {
-    // フィルタ：このカテゴリだけ表示
-    allCats.forEach(c => {
-      c.style.display = c.classList.contains(category) ? '' : 'none';
-    });
-    allTitles.forEach(t => t.classList.remove('active'));
-    titleEl.classList.add('active');
-    document.body.classList.add('filtered');
-    // フィルタ後にスムーズスクロール（カテゴリの上に）
-    titleEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+// ── 中1理科 ──
+{cat:"chu1", badge:"生物", icon:"🌱", title:"生物分類ゲーム",
+ desc:"秘密のルール当てゲーム＋カード＋クイズ＋まとめマップ",
+ meta:"中1理科 P.22-25", href:"https://mararararai-mst.github.io/ikimono-wakeru/", added:"2026-05-09"},
+
+{cat:"chu1", badge:"化学", icon:"🕵️", title:"白い粉末ミステリーラボ",
+ desc:"ラベルのとれた4つの白い粉末の正体を、ルーペ・水・加熱の実験で推理。ランク認定つき",
+ meta:"中1理科 P.84-89", href:"https://mararararai-mst.github.io/white-powder-lab/", added:"2026-07-06"},
+
+{cat:"chu1", badge:"化学", icon:"🔥", title:"ガスバーナー教習所",
+ desc:"学科（粒子で見る炎）→技能検定→路上教習（事件8連発）→卒業検定。合格で免許証を印刷",
+ meta:"中1理科 P.86", href:"https://mararararai-mst.github.io/gas-burner-kentei/", added:"2026-07-07"},
+
+// ── 中2理科 ──
+{cat:"chu2", badge:"化学", icon:"🧪💪", title:"化学反応式トレーニングジム",
+ desc:"力だめし→STEP0〜5→確認テスト→ファイナルチャレンジ。係数のつけ方を体験で習得",
+ meta:"中2理科 単元1", href:"https://mararararai-mst.github.io/chem-gym/", added:"2026-05-09"},
+
+{cat:"chu2", badge:"化学", icon:"🧪", title:"物質の分類チャレンジ",
+ desc:"単体・化合物・混合物をドラッグで分類（説明資料＋5ステップ教材）",
+ meta:"中2理科 P.33", href:"https://mararararai-mst.github.io/bunrui-challenge/", added:"2026-05-09"},
+
+{cat:"chu2", badge:"化学", icon:"⚖️", title:"質量保存の法則ラボ",
+ desc:"燃やす・まぜる・気体発生の4実験を「粒子の見える化」スイッチで。予想→確認、練習問題つき",
+ meta:"中2理科 P.169", href:"https://mararararai-mst.github.io/mass-conservation/", added:"2026-06-11"},
+
+// ── 中3理科 ──
+{cat:"chu3", badge:"化学", icon:"⚗️", title:"イオンラボ 中3版",
+ desc:"イオン式・反応式の確認",
+ meta:"中3理科", href:"https://mararararai-mst.github.io/ion-chu3/", added:"2026-05-09"},
+
+{cat:"chu3", badge:"化学", icon:"⚛️🏠", title:"電子のおうち",
+ desc:"電子配置でイオンの成り立ちを理解。1価/2価がなぜそうなるか・陽イオンと陰イオンの違いを操作で発見",
+ meta:"中3理科 発展", href:"https://mararararai-mst.github.io/denshi-no-ouchi/", added:"2026-05-10"},
+
+{cat:"chu3", badge:"化学", icon:"🧪🌈", title:"水溶液同定ラボ",
+ desc:"BTB・電流・フェノール・Mg・匂いの5観察で7つの水溶液を完全に見分ける(実験モード＋同定パズル)",
+ meta:"中3理科 単元1-2", href:"https://mararararai-mst.github.io/aqueous-identification/", added:"2026-05-10"},
+
+{cat:"chu3", badge:"化学", icon:"⚖️", title:"金属のイオンへのなりやすさ（実験7）",
+ desc:"3×3マイクロプレートでMg・Zn・Cuと3つの硫酸塩水溶液の組み合わせを観察。常時イオン表示／ステップ実行で9パターンを順送り／結果まとめ表でMg＞Zn＞Cuを導出",
+ meta:"中3理科 単元1-3 p.52-55 実験7", href:"https://mararararai-mst.github.io/ionka-keikou/", added:"2026-05-17"},
+
+{cat:"chu3", badge:"化学", icon:"⚡", title:"うすい塩酸の電池モデル（図4）",
+ desc:"亜鉛板＋銅板＋うすい塩酸の電池。水素発生と電圧不安定（分極）を可視化し、ダニエル電池への必然性を理解する導入教材。自動再生／7段階ステップ実行／銅板を磨くボタン",
+ meta:"中3理科 単元1-3 p.51 図4", href:"https://mararararai-mst.github.io/acid-cell/", added:"2026-05-15"},
+
+{cat:"chu3", badge:"化学", icon:"🔋", title:"ダニエル電池シミュレーション",
+ desc:"電子の流れ・イオンの動き・水溶液の色変化を可視化。一次電池なので消耗したら「電池を新しくする」。自動再生／7段階ステップ実行",
+ meta:"中3理科 単元1-3", href:"https://mararararai-mst.github.io/daniel-cell/", added:"2026-05-15"},
+
+{cat:"chu3", badge:"化学", icon:"⚗️💧", title:"中和シミュレーション",
+ desc:"HCl⇔NaOH の2モード。1滴で陽イオン+陰イオンが入り、H⁺とOH⁻が出会うと水になる瞬間を可視化。BTB色＋4種イオンの棒グラフ＋滴下ごとの折れ線グラフ＋加え過ぎでアルカリ性まで体験",
+ meta:"中3理科 酸・アルカリと中和", href:"https://mararararai-mst.github.io/neutralization-simulator/", added:"2026-05-17"},
+
+{cat:"chu3", badge:"化学", icon:"⚗️🧱", title:"中和反応式ビルダー",
+ desc:"3酸×3アルカリ＝9パターンの中和反応式を体験で組み立てる。STAGE 0デモ／1ドラッグ／2係数±／3空欄埋め／4ファイナルの階段構造。BaSO₄白沈殿アニメ付き",
+ meta:"中3理科 酸・アルカリと中和 反応式", href:"https://mararararai-mst.github.io/neutralization-builder/", added:"2026-05-18"},
+
+// ── 小学校・支援 ──
+{cat:"elem", badge:"支援", icon:"✏️", title:"ただしいひらがな",
+ desc:"えとことばの あなうめで、正しい字を えらぶ（支援学級向け）",
+ meta:"小1・ひらがな", href:"https://mararararai-mst.github.io/edu-box/tadashii-hiragana/", added:"2026-05-31"},
+
+{cat:"elem", badge:"支援", icon:"🔢", title:"いくつといくつ",
+ desc:"数の分解アプリ（支援学級向け）",
+ meta:"小1", href:"https://mararararai-mst.github.io/kazu-no-bunkai/", added:"2026-05-09"},
+
+{cat:"elem", badge:"算数", icon:"🥇", title:"なんばんめ マスター",
+ desc:"順序数を6ステージで。前から○番目・上下・左右、そして教室の席（二次元）まで。集合数（3人）と順序数（3人目）の違いを○つけで体感。れんしゅう＆テスト（単元まるごとテストつき）・正解はピンポン音・タップで読み上げ",
+ meta:"小1 なんばんめ 教科書p.34-37", href:"https://mararararai-mst.github.io/nanbanme/", added:"2026-05-31"},
+
+{cat:"elem", badge:"算数", icon:"➕", title:"あわせて いくつ ふえると いくつ",
+ desc:"ブロックや金魚を動かして「あわせる・ふえる」を操作→式に。絵⇄式の「しきさがし」、4択の「けいさんカード」（連続正解で称号👑）まで。たし算のはじめの一歩",
+ meta:"小1 たし算 教科書p.2-12", href:"https://mararararai-mst.github.io/tashizan-app/", added:"2026-06-18"},
+
+{cat:"elem", badge:"算数", icon:"➖", title:"のこりは いくつ",
+ desc:"クッキーや金魚を「とる」と消えて、のこりを数える操作→式に。絵⇄式の「しきさがし」、4択の「けいさんカード」（連続正解で称号👑）まで。ひき算のはじめの一歩（くり下がりなし）",
+ meta:"小1 ひき算（のこりは いくつ）", href:"https://mararararai-mst.github.io/hikizan-app/", added:"2026-07-04"},
+
+{cat:"elem", badge:"算数", icon:"🆚", title:"どっちが いくつ おおい？",
+ desc:"🐰と🥕のように2つを左そろえで並べ、1対1対応の線ではみ出た分＝「ちがい」を見つける求差アプリ。式「おおい−すくない＝ちがい」に。連続正解で称号👑つき",
+ meta:"小1 ひき算（ちがいは いくつ・求差）", href:"https://mararararai-mst.github.io/docchi-ooi-app/", added:"2026-07-04"},
+
+// ── 社会・公民 ──
+{cat:"social", badge:"社会", icon:"📈", title:"10日間マーケット",
+ desc:"株のしくみを学ぶシミュレーションゲーム",
+ meta:"経済・社会", href:"https://mararararai-mst.github.io/stock-game/", added:"2026-05-09"},
+
+{cat:"social", badge:"社会", icon:"🗳️", title:"政党政治シミュレーター",
+ desc:"A〜D党の議席を変えて選挙→与党・野党に分かれて内閣ができる。連立・政権交代を動かして体感する公民の体験アプリ",
+ meta:"中3公民 政党 p.88-89", href:"https://mararararai-mst.github.io/seitou-seiji-sim/", added:"2026-06-24"},
+
+{cat:"social", badge:"社会", icon:"🏛️", title:"政党政治のしくみ 組み立てパズル",
+ desc:"国民→選挙→政党→与党/野党→内閣 のしくみを、ピースをドラッグして完成させる公民の体験アプリ",
+ meta:"中3公民 政党 p.88-89", href:"https://mararararai-mst.github.io/seitou-seiji-puzzle/", added:"2026-06-24"},
+
+// ── レク・あそび ──
+{cat:"rec", badge:"レク", icon:"🕳️", title:"ブラックホール",
+ desc:"紙とペンだけの2人対戦（海外でバズった思考ゲーム）。三角21マスに交互に1〜10を書き、最後に残った1マス＝ブラックホールのとなりを色ごとに合計、小さい方が勝ち。1手ずつ再生＆その場で対戦できるインタラクティブ説明＋印刷用の対戦シートPDFつき",
+ meta:"全学年・学級レク／思考力（紙とペン）", href:"https://mararararai-mst.github.io/blackhole-game/", added:"2026-07-13"},
+
+{cat:"rec", badge:"レク", icon:"🟥🟦", title:"ドット＆ボックス",
+ desc:"点をつないで陣取りする定番の2人対戦。四角の4辺をそろえたら自分のマス＆続けてもう1本ひける。3×3〜5×5を切り替えられるインタラクティブ説明＋その場対戦、印刷用の対戦シートPDFつき",
+ meta:"全学年・学級レク／思考力（紙とペン）", href:"https://mararararai-mst.github.io/dots-and-boxes/", added:"2026-07-13"},
+
+{cat:"rec", badge:"幼児", icon:"🫧", title:"シャボン玉ぷちぷち",
+ desc:"タップでシャボン玉を割る指あそび。たまに動物の絵柄が入った玉も登場",
+ meta:"1歳〜", href:"https://mararararai-mst.github.io/bubble-pop/", added:"2026-05-23"},
+
+// ── 授業デザイン系 ──
+{cat:"design", icon:"📝", title:"国語の授業デザイン",
+ desc:"全体フローの可視化",
+ meta:"国語", href:"https://mararararai-mst.github.io/kokugo-design/", added:"2026-05-09"},
+
+// ── まとめマップ（chapter: plant / animal / chem2） ──
+{cat:"maps", chapter:"plant", badge:"生物", icon:"🌸", title:"花のつくり",
+ words:"花弁 ／ がく ／ おしべ ／ めしべ ／ 離弁花 ／ 合弁花 ／ 子房 ／ 胚珠 ／ 柱頭 ／ やく ／ 花粉",
+ meta:"中1理科 P.31", href:"https://mararararai-mst.github.io/matome-maps/chu1-p31-hana-no-tsukuri.html", added:"2026-05-09"},
+
+{cat:"maps", chapter:"plant", badge:"生物", icon:"🌲", title:"果実をつくらない花",
+ words:"マツ ／ 雌花 ／ 雄花 ／ りん片 ／ 子房 ／ 胚珠 ／ 花粉のう ／ 受粉 ／ 種子 ／ 裸子植物 ／ 被子植物 ／ 種子植物",
+ meta:"中1理科 P.34-35", href:"https://mararararai-mst.github.io/matome-maps/chu1-p34-35-kajitsu-tsukuranai-hana.html", added:"2026-05-09"},
+
+{cat:"maps", chapter:"plant", badge:"生物", icon:"🌿", title:"葉や根のつくり",
+ words:"葉脈 ／ 主脈 ／ 側脈 ／ 根 ／ 観察 ／ 分類",
+ meta:"中1理科 P.36-37", href:"https://mararararai-mst.github.io/matome-maps/chu1-p36-37-ha-ne-de-bunrui.html", added:"2026-05-09"},
+
+{cat:"maps", chapter:"plant", badge:"生物", icon:"🌱", title:"被子植物の分類（双子葉類・単子葉類）",
+ words:"被子植物 ／ 双子葉類 ／ 単子葉類 ／ 子葉 ／ 網状脈 ／ 平行脈 ／ 主根 ／ 側根 ／ ひげ根",
+ meta:"中1理科 P.38-39", href:"https://mararararai-mst.github.io/matome-maps/chu1-p38-39-hishi-shokubutsu-bunrui.html", added:"2026-05-09"},
+
+{cat:"maps", chapter:"plant", badge:"生物", icon:"🌿", title:"シダ植物",
+ words:"シダ植物 ／ 葉 ／ 茎 ／ 根 ／ 種子 ／ 胞子 ／ 胞子のう",
+ meta:"中1理科 P.40", href:"https://mararararai-mst.github.io/matome-maps/chu1-p40-shida-shokubutsu.html", added:"2026-05-09"},
+
+{cat:"maps", chapter:"plant", badge:"生物", icon:"🍀", title:"コケ植物",
+ words:"コケ植物 ／ 葉 ／ 茎 ／ 根 ／ 仮根 ／ 胞子 ／ 胞子のう ／ 雄株 ／ 雌株",
+ meta:"中1理科 P.41", href:"https://mararararai-mst.github.io/matome-maps/chu1-p41-koke-shokubutsu.html", added:"2026-05-09"},
+
+{cat:"maps", chapter:"plant", badge:"生物", icon:"🌳", title:"植物の分類まとめ（全体ツリー）",
+ words:"植物 ／ 種子植物 ／ 被子植物 ／ 裸子植物 ／ 双子葉類 ／ 単子葉類 ／ 種子をつくらない植物 ／ シダ植物 ／ コケ植物",
+ meta:"中1理科 P.43-44 ＝ 単元まとめ", href:"https://mararararai-mst.github.io/matome-maps/chu1-p43-44-shokubutsu-zentai-bunrui.html", added:"2026-05-09"},
+
+{cat:"maps", chapter:"animal", badge:"生物", icon:"🐟", title:"身近な動物の分類",
+ words:"脊椎動物 ／ 無脊椎動物 ／ 背骨の有無 ／ 種類数の違い",
+ meta:"中1理科 P.46〜50", href:"https://mararararai-mst.github.io/matome-maps/chu1-p46-50-mijika-doubutsu.html", added:"2026-06-01"},
+
+{cat:"maps", chapter:"animal", badge:"生物", icon:"🦎", title:"からだのつくり",
+ words:"生活場所（水中⇄陸上）／ うろこ ／ 羽毛 ／ 毛 ／ あし ／ 乾燥に強い体表",
+ meta:"中1理科 P.52", href:"https://mararararai-mst.github.io/matome-maps/chu1-p52-karada-no-tsukuri.html", added:"2026-06-01"},
+
+{cat:"maps", chapter:"animal", badge:"生物", icon:"🐸", title:"呼吸のしかた",
+ words:"えら ／ 肺 ／ 皮膚呼吸 ／ 両生類（幼生→成体で変化）",
+ meta:"中1理科 P.52", href:"https://mararararai-mst.github.io/matome-maps/chu1-p52-kokyuu-no-shikata.html", added:"2026-06-01"},
+
+{cat:"maps", chapter:"animal", badge:"生物", icon:"🥚", title:"子のうまれ方",
+ words:"卵生（殻なし・弾力・かたい殻）／ 胎生 ／ 水中の卵 ／ 陸上の卵",
+ meta:"中1理科 P.52", href:"https://mararararai-mst.github.io/matome-maps/chu1-p52-ko-no-umarekata.html", added:"2026-06-01"},
+
+{cat:"maps", chapter:"animal", badge:"生物", icon:"🐠", title:"脊椎動物の分類（5グループ比較表）",
+ words:"魚類 ／ 両生類 ／ ハチュウ類 ／ 鳥類 ／ 哺乳類 ／ 体表・呼吸・うまれ方で比較",
+ meta:"中1理科 P.52〜53 ＝ 単元まとめ", href:"https://mararararai-mst.github.io/matome-maps/chu1-p52-53-sekitsui-doubutsu.html", added:"2026-06-01"},
+
+{cat:"maps", chapter:"animal", badge:"生物", icon:"🦀", title:"節足動物",
+ words:"外骨格 ／ 節 ／ 関節 ／ 甲殻類 ／ 昆虫類 ／ クモ・サソリ ／ ムカデ",
+ meta:"中1理科 P.55", href:"https://mararararai-mst.github.io/matome-maps/chu1-p55-sessoku-doubutsu.html", added:"2026-06-01"},
+
+{cat:"maps", chapter:"animal", badge:"生物", icon:"🦑", title:"軟体動物",
+ words:"外とう膜 ／ イカ・タコ（殻なし）／ アサリ・サザエ（殻あり）／ 各部位の名前",
+ meta:"中1理科 P.55", href:"https://mararararai-mst.github.io/matome-maps/chu1-p55-nantai-doubutsu.html", added:"2026-06-01"},
+
+{cat:"maps", chapter:"animal", badge:"生物", icon:"🌊", title:"その他の無脊椎動物",
+ words:"ウニ・ヒトデ ／ クラゲ・イソギンチャク ／ ミミズ ／ 放射状・針・円柱状の節",
+ meta:"中1理科 P.56〜57", href:"https://mararararai-mst.github.io/matome-maps/chu1-p56-57-sonota-musekitsui.html", added:"2026-06-01"},
+
+{cat:"maps", chapter:"animal", badge:"生物", icon:"🌳", title:"動物の分類まとめ（全体ツリー・主要語句）",
+ words:"動物 ／ 脊椎動物 ／ 無脊椎動物 ／ 魚類〜哺乳類 ／ 節足動物（甲殻類・昆虫類・クモ/サソリ・ムカデ）／ 軟体動物 ／ その他の無脊椎動物",
+ meta:"中1理科 P.46-57 ＝ まず全体像（入口）", href:"https://mararararai-mst.github.io/matome-maps/chu1-doubutsu-zentai-bunrui.html", added:"2026-06-04"},
+
+{cat:"maps", chapter:"animal", badge:"生物", icon:"🗺️", title:"動物の分類まとめ（完成版・全語句）",
+ words:"全体ツリー＋各グループの特徴（体表・呼吸・うまれ方・外骨格・節・関節 など）＋代表動物（コイ・カエル・カニ・イカ…）／全40語",
+ meta:"中1理科 P.46-57 ＝ 見本（答え）", href:"https://mararararai-mst.github.io/matome-maps/chu1-doubutsu-zentai-full.html", added:"2026-06-10"},
+
+{cat:"maps", chapter:"chem2", badge:"化学", icon:"🧪", title:"単体と化合物・物質の分類",
+ words:"原子 ／ 分子 ／ 元素 ／ 元素記号 ／ 化学式 ／ 物質 ／ 純粋な物質 ／ 混合物 ／ 単体 ／ 化合物",
+ meta:"中2理科 P.32-33（見開き）", href:"https://mararararai-mst.github.io/matome-maps/chu2-p32-33-tantai-kagobutsu.html", added:"2026-05-09"},
+
+{cat:"maps", chapter:"chem2", badge:"化学", icon:"🛡️", title:"酸化を防ぐくふう",
+ words:"酸化 ／ さび ／ 酸素 ／ 塗装 ／ めっき ／ トタン ／ ブリキ ／ 脱酸素剤 ／ 酸化防止剤 ／ 酸素にふれさせない",
+ meta:"中2理科 化学1章（発展）", href:"https://mararararai-mst.github.io/matome-maps/chu2-p55-sanka-wo-fusegu.html", added:"2026-06-12"},
+
+// ── 学校運営系 ──
+{cat:"school", icon:"📖", title:"TEACHER'S BIBLE",
+ desc:"とどろみの森学園 2026 教師バイブル",
+ meta:"学校運営", href:"https://mararararai-mst.github.io/teachers-bible/", added:"2026-05-09"},
+
+];
+
+/* ── カテゴリ・章の定義 ── */
+const CATEGORIES = {
+  chu1:   {label:"🌱 中1理科",                          cls:"cat-chu1"},
+  chu2:   {label:"🧪 中2理科",                          cls:"cat-chu2"},
+  chu3:   {label:"⚗️ 中3理科",                          cls:"cat-chu3"},
+  elem:   {label:"🎒 小学校・支援",                      cls:"cat-elem"},
+  social: {label:"🏛️ 社会・公民",                       cls:"cat-social"},
+  rec:    {label:"🎉 レク・あそび",                      cls:"cat-rec"},
+  design: {label:"🎨 授業デザイン系（教師が授業設計に使う）", cls:"cat-design"},
+  maps:   {label:"📊 まとめマップ",                      cls:"cat-ks"},
+  school: {label:"📖 学校運営系（教師全体向け）",          cls:"cat-school"},
+};
+
+const CHAPTERS = {
+  plant:  {icon:"🌱", label:"中1 ／ 生物2章「植物の分類」",        pages:"P.31〜44", color:"#c8961e", bg:"#fff8e8"},
+  animal: {icon:"🐾", label:"中1 ／ 生物3章「動物の分類」",        pages:"P.46〜57", color:"#2E7D32", bg:"#f0fff4"},
+  chem2:  {icon:"🧪", label:"中2 ／ 化学1章「化学変化と原子・分子」", pages:"P.32〜",  color:"#d63384", bg:"#fff0f5"},
+};
+
+const BADGE_CLS = {
+  "生物":"bio", "化学":"chem", "物理":"phys", "地学":"earth",
+  "支援":"other", "算数":"other", "レク":"other", "幼児":"other", "社会":"social",
+};
+
+const NEW_DAYS = 21;
+
+/* ── 状態 ── */
+const state = { cat: null, badge: null, q: "" };
+const openChapters = new Set();
+
+function isNew(it){
+  return (Date.now() - new Date(it.added + "T00:00:00")) < NEW_DAYS * 86400000;
+}
+
+function matches(it){
+  if (state.badge && it.badge !== state.badge) return false;
+  const q = state.q.trim().toLowerCase();
+  if (q) {
+    const hay = [it.title, it.desc, it.words, it.meta, it.badge].join(" ").toLowerCase();
+    if (!hay.includes(q)) return false;
+  }
+  return true;
+}
+
+function cardHTML(it){
+  const cls = it.badge ? BADGE_CLS[it.badge] : "";
+  return `<a class="card${cls ? " field-" + cls : ""}" href="${it.href}" target="_blank">` +
+    (isNew(it) ? `<span class="new-badge">NEW</span>` : "") +
+    `<div class="icon">${it.icon}</div>` +
+    `<div class="title">${it.title}</div>` +
+    (it.desc ? `<div class="desc">${it.desc}</div>` : "") +
+    (it.words ? `<div class="words">${it.words}</div>` : "") +
+    (it.badge ? `<span class="field-badge ${cls}" data-badge="${it.badge}" title="「${it.badge}」で絞り込む">${it.badge}</span>` : "") +
+    `<span class="meta">${it.meta}</span>` +
+    `</a>`;
+}
+
+function render(){
+  const searching = state.q.trim() !== "" || state.badge !== null;
+  let html = "";
+
+  for (const [key, cat] of Object.entries(CATEGORIES)) {
+    if (state.cat && state.cat !== key) continue;
+    const visible = ITEMS.filter(i => i.cat === key && matches(i));
+    if (visible.length === 0) continue;
+    const total = ITEMS.filter(i => i.cat === key).length;
+
+    html += `<div class="category ${cat.cls}">`;
+    html += `<div class="category-title${state.cat === key ? " active" : ""}" data-cat="${key}" tabindex="0" role="button">${cat.label}（${total}）</div>`;
+
+    if (key === "maps") {
+      for (const [ck, ch] of Object.entries(CHAPTERS)) {
+        const chVisible = visible.filter(i => i.chapter === ck);
+        if (chVisible.length === 0) continue;
+        const chTotal = ITEMS.filter(i => i.cat === "maps" && i.chapter === ck).length;
+        const open = searching || openChapters.has(ck);
+        html += `<div class="chapter-band" data-ch="${ck}" tabindex="0" role="button" style="border-left-color:${ch.color};background:${ch.bg}">` +
+          `<span class="tri">${open ? "▾" : "▸"}</span>${ch.icon} <strong>${ch.label}</strong> <span class="count">（${ch.pages} ／ 全${chTotal}マップ）</span></div>`;
+        if (open) html += `<div class="cards">${chVisible.map(cardHTML).join("")}</div>`;
+      }
+    } else {
+      html += `<div class="cards">${visible.map(cardHTML).join("")}</div>`;
+    }
+    html += `</div>`;
+  }
+
+  if (!html) html = `<div class="no-hit">😢 見つかりませんでした。キーワードを変えてみてね</div>`;
+  document.getElementById("content").innerHTML = html;
+  document.body.classList.toggle("filtered", state.cat !== null);
+  renderFilterChip();
+}
+
+function renderFilterChip(){
+  const el = document.getElementById("active-filter");
+  el.innerHTML = state.badge
+    ? `<span class="chip">絞り込み中：${state.badge}<button type="button" id="clear-badge" aria-label="絞り込み解除">✕</button></span>`
+    : "";
+}
+
+function renderFooter(){
+  const apps = ITEMS.filter(i => i.cat !== "maps").length;
+  const maps = ITEMS.filter(i => i.cat === "maps").length;
+  const last = ITEMS.map(i => i.added).sort().pop();
+  document.getElementById("footer").textContent =
+    `最終更新：${last} ／ 教材・アプリ ${apps}件＋まとめマップ ${maps}件`;
+}
+
+/* ── イベント（デリゲーション） ── */
+function handleActivate(target, e){
+  const badge = target.closest(".field-badge");
+  if (badge) {
+    e.preventDefault();
+    e.stopPropagation();
+    state.badge = (state.badge === badge.dataset.badge) ? null : badge.dataset.badge;
+    render();
+    return;
+  }
+  const band = target.closest(".chapter-band");
+  if (band) {
+    const ck = band.dataset.ch;
+    openChapters.has(ck) ? openChapters.delete(ck) : openChapters.add(ck);
+    render();
+    return;
+  }
+  const title = target.closest(".category-title");
+  if (title) {
+    const key = title.dataset.cat;
+    state.cat = (state.cat === key) ? null : key;
+    render();
+    if (state.cat) {
+      const el = document.querySelector(".category-title.active");
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   }
 }
+
+document.getElementById("content").addEventListener("click", e => handleActivate(e.target, e));
+document.getElementById("content").addEventListener("keydown", e => {
+  if (e.key === "Enter" || e.key === " ") {
+    if (e.target.matches(".category-title, .chapter-band")) {
+      e.preventDefault();
+      handleActivate(e.target, e);
+    }
+  }
+});
+document.getElementById("active-filter").addEventListener("click", e => {
+  if (e.target.id === "clear-badge") { state.badge = null; render(); }
+});
+document.getElementById("q").addEventListener("input", e => {
+  state.q = e.target.value;
+  render();
+});
+
+renderFooter();
+render();
 </script>
 
 </body>
