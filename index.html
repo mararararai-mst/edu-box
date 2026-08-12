@@ -144,6 +144,7 @@ body.filtered .category-title.active::after { content: " ✕"; opacity: 1; }
 .cat-elem   .category-title { background: #ece7f5; color: #6A4FB1; border: 2px solid #6A4FB1; }
 .cat-social .category-title { background: #e0f2f1; color: #00796B; border: 2px solid #00796B; }
 .cat-rec    .category-title { background: #ffe9d6; color: #c05f00; border: 2px solid #c05f00; }
+.cat-kokoro .category-title { background: #ffeef4; color: #b03a6b; border: 2px solid #b03a6b; }
 .cat-design .category-title { background: #d8f3dc; color: #2E7D32; border: 2px solid #2E7D32; }
 .cat-school .category-title { background: #cfe0f5; color: #1565C0; border: 2px solid #1565C0; }
 .cat-ks     .category-title { background: #fff4c2; color: #b27900; border: 2px solid #b27900; }
@@ -422,6 +423,11 @@ const ITEMS = [
  meta:"1歳〜", href:"https://mararararai-mst.github.io/bubble-pop/", added:"2026-05-23"},
 
 // ── 授業デザイン系 ──
+// ── 心・ふりかえり ──
+{cat:"kokoro", icon:"📍", title:"心マトリクス ふりかえり",
+ desc:"葛原祥太「心マトリクス」の図に、いまの心と、つぎに行きたい場所のピンを刺してふりかえる。ふたりで刺してズレを見る／「きらきらってどんなとき？」を自分のことばで埋める、の3モード。できごと・つぎの一歩のメモ、画像でほぞん、ふりがな切替つき",
+ meta:"全学年・学級経営／自己調整", href:"https://mararararai-mst.github.io/kokoro-matrix/", added:"2026-08-12"},
+
 {cat:"design", icon:"📝", title:"国語の授業デザイン",
  desc:"全体フローの可視化",
  meta:"国語", href:"https://mararararai-mst.github.io/kokugo-design/", added:"2026-05-09"},
@@ -518,6 +524,7 @@ const CATEGORIES = {
   elem:   {label:"🎒 小学校・支援",                      cls:"cat-elem"},
   social: {label:"🏛️ 社会・公民",                       cls:"cat-social"},
   rec:    {label:"🎉 レク・あそび",                      cls:"cat-rec"},
+  kokoro: {label:"💗 心・ふりかえり（学級経営／自己調整）",   cls:"cat-kokoro"},
   design: {label:"🎨 授業デザイン系（教師が授業設計に使う）", cls:"cat-design"},
   maps:   {label:"📊 まとめマップ",                      cls:"cat-ks"},
   school: {label:"📖 学校運営系（教師全体向け）",          cls:"cat-school"},
