@@ -148,6 +148,7 @@ body.filtered .category-title.active::after { content: " ✕"; opacity: 1; }
 .cat-design .category-title { background: #d8f3dc; color: #2E7D32; border: 2px solid #2E7D32; }
 .cat-school .category-title { background: #cfe0f5; color: #1565C0; border: 2px solid #1565C0; }
 .cat-ks     .category-title { background: #fff4c2; color: #b27900; border: 2px solid #b27900; }
+.cat-tech   .category-title { background: #e6eaef; color: #4a5560; border: 2px solid #4a5560; }
 
 /* ── まとめマップの章帯（折りたたみ） ── */
 .chapter-band {
@@ -338,6 +339,18 @@ const ITEMS = [
  desc:"燃やす・まぜる・気体発生の4実験を「粒子の見える化」スイッチで。予想→確認、練習問題つき",
  meta:"中2理科 P.169", href:"https://mararararai-mst.github.io/mass-conservation/", added:"2026-06-11"},
 
+{cat:"chu2", badge:"物理", icon:"🧲", title:"磁界ビューア3D",
+ desc:"棒磁石・まっすぐな導線・コイルの磁界を3Dで回りこんで見る。磁力線・鉄粉・磁針が同時に動き、右手ガイドつき",
+ meta:"中2理科 P.268-271", href:"https://mararararai-mst.github.io/jikai-viewer-3d/", added:"2026-08-31"},
+
+{cat:"chu2", badge:"物理", icon:"⚙️", title:"モーターの原理ラボ3D",
+ desc:"電流と磁界の向きを入れかえて力の向きを確かめる。整流子を外すと回り続けないことまで体験できる",
+ meta:"中2理科 P.272-275", href:"https://mararararai-mst.github.io/motor-lab-3d/", added:"2026-08-31"},
+
+{cat:"chu2", badge:"物理", icon:"🔌", title:"電磁誘導ラボ3D",
+ desc:"磁石を手で動かすと検流計の針がふれ、止めると0にもどる。巻数・強さ・速さ・極を変えて条件さがし",
+ meta:"中2理科 P.276-279", href:"https://mararararai-mst.github.io/denjiyudo-3d/", added:"2026-08-31"},
+
 // ── 中3理科 ──
 {cat:"chu3", badge:"化学", icon:"⚗️", title:"イオンラボ 中3版",
  desc:"イオン式・反応式の確認",
@@ -514,6 +527,11 @@ const ITEMS = [
  desc:"とどろみの森学園 2026 教師バイブル",
  meta:"学校運営", href:"https://mararararai-mst.github.io/teachers-bible/", added:"2026-05-09"},
 
+// ── 技術・ものづくり ──
+{cat:"tech", badge:"技術", icon:"🔧", title:"4サイクルエンジン3D",
+ desc:"吸入・圧縮・燃焼・排気をクランク角0〜720°で手回し。バルブの開閉とカムの回転が連動して見える",
+ meta:"技術・エネルギー変換", href:"https://mararararai-mst.github.io/4stroke-engine-3d/", added:"2026-08-31"},
+
 ];
 
 /* ── カテゴリ・章の定義 ── */
@@ -528,6 +546,7 @@ const CATEGORIES = {
   design: {label:"🎨 授業デザイン系（教師が授業設計に使う）", cls:"cat-design"},
   maps:   {label:"📊 まとめマップ",                      cls:"cat-ks"},
   school: {label:"📖 学校運営系（教師全体向け）",          cls:"cat-school"},
+  tech:   {label:"🔧 技術・ものづくり",                   cls:"cat-tech"},
 };
 
 const CHAPTERS = {
@@ -538,7 +557,7 @@ const CHAPTERS = {
 
 const BADGE_CLS = {
   "生物":"bio", "化学":"chem", "物理":"phys", "地学":"earth",
-  "支援":"other", "算数":"other", "レク":"other", "幼児":"other", "社会":"social",
+  "支援":"other", "算数":"other", "レク":"other", "幼児":"other", "社会":"social", "技術":"other",
 };
 
 const NEW_DAYS = 21;
