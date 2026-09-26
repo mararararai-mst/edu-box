@@ -26,7 +26,7 @@ body{
   -webkit-text-size-adjust:100%;
   word-break:auto-phrase; line-break:strict; text-wrap:pretty;
 }
-.wrap{max-width:840px; margin:0 auto; padding:34px 16px 80px}
+.wrap{max-width:1060px; margin:0 auto; padding:34px 16px 80px}
 
 header{padding:0 6px}
 h1{font-size:31px; font-weight:900; line-height:1.4; margin:0}
@@ -64,6 +64,10 @@ svg{display:block; width:100%; height:auto}
 
 .card{background:var(--box); border-radius:18px; padding:20px 20px 22px; margin:20px 0 0}
 .card h3{font-size:19px; font-weight:900; margin:0}
+details.stage{padding:0; margin:20px 0 0}
+details.stage>summary{padding:18px 20px; font-size:19px}
+details.stage .dbody{padding:0 20px 22px}
+details.stage .dbody .tag{margin-top:0}
 .card li{background:#fff; border-radius:12px}
 .card ol{list-style:none; counter-reset:m; margin:16px 0 0; padding:0}
 .card ol li{counter-increment:m; position:relative; background:#fff; border-radius:12px;
@@ -85,7 +89,22 @@ table.judge td{font-size:14.5px; line-height:1.8; text-align:left; vertical-alig
   padding:14px 12px; border-top:1px solid var(--line)}
 table.judge th:first-child,table.judge td:first-child{padding-left:16px}
 table.judge th:last-child,table.judge td:last-child{padding-right:16px}
-table.judge col.c1{width:26%} table.judge col.c2{width:22%} table.judge col.c3{width:52%}
+table.judge col.c0{width:52px} table.judge col.c1{width:23%}
+table.judge col.c2{width:19%} table.judge col.c3{width:auto}
+table.judge tbody tr{cursor:pointer}
+table.judge tbody tr:hover td{background:#EFEBE0}
+table.judge tr.on td{background:#DDEDE4}
+table.judge td.chk{text-align:center; padding-left:14px; padding-right:0}
+table.judge input[type=checkbox]{
+  appearance:none; -webkit-appearance:none; width:22px; height:22px; margin:0;
+  border:2px solid #B9B2A5; border-radius:6px; background:#fff; cursor:pointer;
+  vertical-align:middle; position:relative;
+}
+table.judge input[type=checkbox]:checked{background:var(--accent); border-color:var(--accent)}
+table.judge input[type=checkbox]:checked::after{
+  content:""; position:absolute; left:6px; top:2px; width:5px; height:10px;
+  border:solid #fff; border-width:0 2.5px 2.5px 0; transform:rotate(42deg);
+}
 table.judge td.res{font-weight:900; color:var(--accent)}
 table.judge td.pos{color:var(--muted)}
 @media (max-width:430px){
@@ -110,10 +129,10 @@ footer{margin-top:26px; padding:0 8px; font-size:13px; color:var(--muted); line-
 @media (min-width:1040px){
   .layout{display:flex; justify-content:center; align-items:flex-start; gap:30px;
     padding:0 20px}
-  .layout .wrap{margin:0; flex:0 1 840px; min-width:0}
+  .layout .wrap{margin:0; flex:0 1 1060px; min-width:0}
   .toc{
     display:block; position:sticky; top:40px; margin-top:44px;
-    flex:0 0 176px; width:176px;
+    flex:0 0 232px; width:232px;
     font-size:13.5px; line-height:1.7;
   }
   .toc .tt{font-size:12px; color:var(--muted); font-weight:700; letter-spacing:.08em; margin-bottom:10px}
@@ -214,15 +233,14 @@ a{color:var(--accent)}
   </div>
 
   <h3 class="sub">判定表</h3>
-  <table class="judge"><colgroup><col class="c1"><col class="c2"><col class="c3"></colgroup><thead><tr><th>結果</th><th>現在地</th><th>明日やること</th></tr></thead><tbody><tr><td class="res">Aが崩れる</td><td class="pos">4段階の1〜2</td><td>音遊び＋文字1〜2字を毎日3分（下の段階1へ）</td></tr><tr><td class="res">Aはできて<br>Bが崩れる</td><td class="pos">4段階の2</td><td>知らない語・意味のない文字列を読ませる。カタカナの長音・拗音・促音を別で教える（段階2へ）</td></tr><tr><td class="res">Bまでできて<br>Cが遅い</td><td class="pos">4段階の3</td><td>30秒音読。初見しばり。繰り返し読み（段階3へ）</td></tr><tr><td class="res">Cまですらすら</td><td class="pos">4段階の4</td><td>どこに書いてある？を必ずセットにする（段階4へ）</td></tr></tbody></table>
-  <p class="flag"><b>4人が別々の行き先になるのが正常です。</b>全員を同じ段階に乗せないことが、時間を守るいちばんの方法になります。</p>
+  <table class="judge"><colgroup><col class="c0"><col class="c1"><col class="c2"><col class="c3"></colgroup><thead><tr><th></th><th>結果</th><th>現在地</th><th>明日やること</th></tr></thead><tbody><tr><td class="chk"><input type="checkbox" aria-label="Aが崩れる"></td><td class="res">Aが崩れる</td><td class="pos">4段階の1〜2</td><td>音遊び＋文字1〜2字を毎日3分（下の段階1へ）</td></tr><tr><td class="chk"><input type="checkbox" aria-label="AはできてBが崩れる"></td><td class="res">Aはできて<br>Bが崩れる</td><td class="pos">4段階の2</td><td>知らない語・意味のない文字列を読ませる。カタカナの長音・拗音・促音を別で教える（段階2へ）</td></tr><tr><td class="chk"><input type="checkbox" aria-label="BまでできてCが遅い"></td><td class="res">Bまでできて<br>Cが遅い</td><td class="pos">4段階の3</td><td>30秒音読。初見しばり。繰り返し読み（段階3へ）</td></tr><tr><td class="chk"><input type="checkbox" aria-label="Cまですらすら"></td><td class="res">Cまですらすら</td><td class="pos">4段階の4</td><td>どこに書いてある？を必ずセットにする（段階4へ）</td></tr></tbody></table>
 </section>
 
 <section id="s4">
   <div class="snum">4</div>
   <h2>明日からの手立て</h2>
   <p class="sdesc">全員でやるのは段階3の30秒だけ。段階1と2は、必要な子にだけ。</p>
-  <div class="card"><h3>段階1　音と文字</h3><p class="tag">毎日3分／必要な子だけ／準備はほぼゼロ</p><ol><li>音遊びを先に。「ねこの最初の音は？」「かめから　か　をとったら？」しりとり。</li><li>文字は1日1〜2字。新出を増やすより、復習の回転数を上げる。</li><li>キャラでフックを作る。ピはピカチュウ、マはマイクラ。</li><li>口の形は正面で、大きく、ゆっくり見せる。真似から入る。</li></ol></div><div class="card"><h3>段階2　単語で読む</h3><p class="tag">すきま3分／必要な子だけ</p><ol><li>順番は、知っている語 → 知らない語 → 意味のない文字列。</li><li>カタカナの特殊音だけ独立して教える。長音（ー）、拗音（ャュョ）、促音（ッ）。</li><li>視写プリントはここで使う。写したあと、必ず声に出させる。</li></ol></div><div class="card"><h3>段階3　文を読む</h3><p class="tag">授業の冒頭30秒／全員</p><ol><li>条件は3つ。初見であること、ひらがなとカタカナだけ、30秒で読み切れる長さ。</li><li>地の文は素直に。キャラ名だけご褒美にする。</li><li>日替わりでひとり読み、そのあとみんなで読む。</li><li>週1回、同じ文を3回読むタイムアタック。1回目より3回目が速い体験をつくる。</li></ol><p class="sample">カビゴンが　ごはんを　たべすぎて　おなかが　いたく　なりました。<br>ピカチュウが　きの　うえで　ねむって　いたら、みが　おちて　きました。<br>クリーパーが　しずかに　ちかづいて　きたので、みんなで　にげました。<br>ゾンビが　よるに　あらわれて、まどを　たたいて　いました。</p></div><div class="card"><h3>段階4　読解につなぐ</h3><p class="tag">単元の中で</p><ol><li>読み取りの前に必ず音読。先生が読む → 一緒に読む → ひとりで読む。</li><li>問いに「どこに書いてある？指さして」を必ずセットにする。</li><li>スペシャル問題（どんな気持ちだった）は残す。ただし本文に戻る動きとセットで。</li></ol></div>
+  <div class="card"><h3>段階1　音と文字</h3><p class="tag">毎日3分／必要な子だけ／準備はほぼゼロ</p><ol><li>音遊びを先に。「ねこの最初の音は？」「かめから　か　をとったら？」しりとり。</li><li>文字は1日1〜2字。新出を増やすより、復習の回転数を上げる。</li><li>キャラでフックを作る。ピはピカチュウ、マはマイクラ。</li><li>口の形は正面で、大きく、ゆっくり見せる。真似から入る。</li></ol></div><details class="card stage"><summary>段階2　単語で読む<span class="hint"></span></summary><div class="dbody"><p class="tag">すきま3分／必要な子だけ</p><ol><li>順番は、知っている語 → 知らない語 → 意味のない文字列。</li><li>カタカナの特殊音だけ独立して教える。長音（ー）、拗音（ャュョ）、促音（ッ）。</li><li>視写プリントはここで使う。写したあと、必ず声に出させる。</li></ol></div></details><details class="card stage"><summary>段階3　文を読む<span class="hint"></span></summary><div class="dbody"><p class="tag">授業の冒頭30秒／全員</p><ol><li>条件は3つ。初見であること、ひらがなとカタカナだけ、30秒で読み切れる長さ。</li><li>地の文は素直に。キャラ名だけご褒美にする。</li><li>日替わりでひとり読み、そのあとみんなで読む。</li><li>週1回、同じ文を3回読むタイムアタック。1回目より3回目が速い体験をつくる。</li></ol><p class="sample">カビゴンが　ごはんを　たべすぎて　おなかが　いたく　なりました。<br>ピカチュウが　きの　うえで　ねむって　いたら、みが　おちて　きました。<br>クリーパーが　しずかに　ちかづいて　きたので、みんなで　にげました。<br>ゾンビが　よるに　あらわれて、まどを　たたいて　いました。</p></div></details><details class="card stage"><summary>段階4　読解につなぐ<span class="hint"></span></summary><div class="dbody"><p class="tag">単元の中で</p><ol><li>読み取りの前に必ず音読。先生が読む → 一緒に読む → ひとりで読む。</li><li>問いに「どこに書いてある？指さして」を必ずセットにする。</li><li>スペシャル問題（どんな気持ちだった）は残す。ただし本文に戻る動きとセットで。</li></ol></div></details>
   <h3 class="sub">1日4分の最小構成</h3>
   <div class="clock"><div><strong>朝　30秒</strong><span>音遊びを1問。全員。教材はいらない。</span></div><div><strong>授業の冒頭　30秒</strong><span>初見の短文をひとり読み＋みんな読み。全員。</span></div><div><strong>すきま　3分</strong><span>段階1・2の子だけ個別。支援員さんが入れる場面で。</span></div></div>
   <p class="flag"><b>新しく作るのは、30秒音読の例文ストックだけ。</b>AIでまとめて作れば、作成コストは実質1回きりで終わります。</p>
@@ -249,6 +267,19 @@ a{color:var(--accent)}
   }, {passive:true});
   window.addEventListener('resize', update);
   update();
+})();
+(function(){
+  var rows = [].slice.call(document.querySelectorAll('table.judge tbody tr'));
+  rows.forEach(function(tr){
+    var box = tr.querySelector('input[type=checkbox]');
+    if(!box) return;
+    function sync(){ tr.classList.toggle('on', box.checked); }
+    tr.addEventListener('click', function(e){
+      if(e.target !== box){ box.checked = !box.checked; }
+      sync();
+    });
+    box.addEventListener('change', sync);
+  });
 })();
 </script>
 </body>
