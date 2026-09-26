@@ -634,7 +634,7 @@ function mapsInnerHTML(list, forceOpen) {
 
 /* ── 画面 ── */
 function topHTML(searching) {
-  /* 検索中は、元の画面の見出し（例「そのほか 19件」）を出さない。
+  /* 検索中は、元の画面の見出し（例「そのほか 19」）を出さない。
      検索結果側にも見出しが出るため、二重になって今どこかが分からなくなる */
   if (searching) {
     return state.view === "entry" ? ''
@@ -643,14 +643,14 @@ function topHTML(searching) {
   if (state.view === "entry") {
     return '<div class="hd"><h1>教材ボックス</h1>'
       + '<div class="sub">アイデアをカタチに。</div>'
-      + '<div class="total">全' + ITEMS.length + '件（アプリ ' + split(ITEMS).apps + ' ／ まとめマップ ' + split(ITEMS).maps + '）</div>'
+      + '<div class="total">アプリ ' + split(ITEMS).apps + ' ／ まとめマップ ' + split(ITEMS).maps + ' ／ 合計 ' + ITEMS.length + '</div>'
       + '<div class="note">校務PCで使うときは このHTMLをダウンロードして開いてね</div></div>';
   }
   const nm = state.view === "other" ? "そのほか" : state.pick;
   const n = state.view === "other" ? OTHERS().length : cnt(state.pick);
   const c = state.view === "other" ? "#5C4F42" : col(state.pick);
   return '<button class="back" id="back">← 入り口にもどる</button>'
-    + '<div class="now" style="color:' + c + '">' + esc(nm) + '　' + n + '件</div>'
+    + '<div class="now" style="color:' + c + '">' + esc(nm) + '　' + n + '</div>'
     + '<div class="now-sub">' + splitTxt(state.view === "other" ? OTHERS() : ITEMS.filter(i => i.badge === state.pick)) + '</div>';
 }
 
@@ -659,14 +659,14 @@ function entryHTML() {
     const n = cnt(f);
     if (!n) return '<div class="tile empty"><div class="tn">' + f + '</div><div class="tc">準備中</div></div>';
     return '<button class="tile" data-f="' + f + '" style="background:' + FCOL[f] + '">'
-      + '<div class="tn">' + f + '</div><div class="tc">' + splitTxt(ITEMS.filter(i => i.badge === f)) + '</div></button>';
+      + '<div class="tn">' + f + '</div><div class="tc">' + n + '</div></button>';
   }).join("");
   const o = OTHERS();
   const names = OTHER_ORDER_BASE.filter(c => o.some(i => i.cat === c))
     .map(c => (CATNM[c] || c).replace(/（.*$/, "")).slice(0, 3).join("／");
   return '<div class="tiles">' + tiles + '</div>'
     + '<button class="other" data-f="__other"><div class="tn">そのほか</div>'
-    + '<div class="tc">' + splitTxt(o) + '（' + esc(names) + ' ほか）</div></button>';
+    + '<div class="tc">' + o.length + '（' + esc(names) + ' ほか）</div></button>';
 }
 
 function fieldHTML() {
@@ -698,8 +698,8 @@ function searchHTML() {
     return '<div class="no-hit">「' + esc(state.q) + '」は見つかりませんでした。<br>キーワードを変えてみてください。</div>';
   }
   const groups = FIELDS.concat(["__other"]);
-  return '<div class="now" style="color:#5C4F42;margin-bottom:22px">検索結果　' + hit.length + '件<br>'
-    + '<span style="font-size:13px;font-weight:500;color:#6E6053">分野を問わず、全' + ITEMS.length + '件の中から探しています</span></div>'
+  return '<div class="now" style="color:#5C4F42;margin-bottom:22px">検索結果　' + hit.length + '<br>'
+    + '<span style="font-size:13px;font-weight:500;color:#6E6053">分野を問わず、全' + ITEMS.length + 'の中から探しています</span></div>'
     + groups.map(g => {
         const sub = g === "__other" ? hit.filter(i => !FIELDS.includes(i.badge)) : hit.filter(i => i.badge === g);
         return sectionHTML(g === "__other" ? "そのほか" : g, g === "__other" ? NEUTRAL : FCOL[g], sub);
@@ -750,7 +750,7 @@ function renderFooter() {
   const maps = ITEMS.filter(i => i.cat === "maps").length;
   const last = ITEMS.map(i => i.added).filter(Boolean).sort().pop();
   document.getElementById("footer").textContent =
-    "最終更新：" + last + " ／ 教材・アプリ " + apps + "件＋まとめマップ " + maps + "件";
+    "最終更新：" + last + " ／ アプリ " + apps + " ＋ まとめマップ " + maps;
 }
 
 /* ── 操作 ── */
