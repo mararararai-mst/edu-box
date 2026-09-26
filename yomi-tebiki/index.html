@@ -105,11 +105,15 @@ table.judge td.pos{color:var(--muted)}
 .flag b{display:block; font-size:18px; font-weight:900; color:var(--flag); margin-bottom:6px}
 
 footer{margin-top:26px; padding:0 8px; font-size:13px; color:var(--muted); line-height:1.9}
+.layout{display:block}
 .toc{display:none}
-@media (min-width:1280px){
+@media (min-width:1040px){
+  .layout{display:flex; justify-content:center; align-items:flex-start; gap:30px;
+    padding:0 20px}
+  .layout .wrap{margin:0; flex:0 1 840px; min-width:0}
   .toc{
-    display:block; position:fixed; top:64px;
-    left:calc(50% - 420px - 208px); width:184px;
+    display:block; position:sticky; top:40px; margin-top:44px;
+    flex:0 0 176px; width:176px;
     font-size:13.5px; line-height:1.7;
   }
   .toc .tt{font-size:12px; color:var(--muted); font-weight:700; letter-spacing:.08em; margin-bottom:10px}
@@ -138,6 +142,7 @@ a{color:var(--accent)}
 </style>
 </head>
 <body>
+<div class="layout">
 <nav class="toc" aria-label="目次">
   <div class="tt">もくじ</div>
   <a href="#s1"><span class="n">1</span>クラスで起きていること</a>
@@ -225,6 +230,7 @@ a{color:var(--accent)}
 
 <footer>2026年9月25日の個人伴走より　／　読解 ＝ 解読 × 言語理解</footer>
 
+</div>
 </div>
 <script>
 (function(){
