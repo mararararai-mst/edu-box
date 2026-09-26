@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>読めないを読めるにする｜1年生の国語・読みの手引き</title>
+<meta name="description" content="読解＝解読×言語理解。読めるまでの4段階、いまどこで詰まっているかを2分で見るテスト、明日からできる1日4分の手立て。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="読めないを読めるにする｜1年生の国語・読みの手引き">
+<meta property="og:description" content="読解＝解読×言語理解。読めるまでの4段階、現在地を見る2分テスト、1日4分の手立て。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#EFE7D8; --ink:#33302B; --muted:#77716A;
+  --panel:#FFFFFF; --box:#F4F1E9; --box2:#F1EEE5;
+  --accent:#1F7A5A; --accent-d:#14523E; --accent-bg:#E4F1EA;
+  --flag:#C2681B; --flagbg:#FFF3E2; --line:#E2DCCF;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:"Zen Maru Gothic","Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",sans-serif;
+  font-size:16.5px; line-height:1.95; font-weight:500;
+  -webkit-text-size-adjust:100%;
+  word-break:auto-phrase; line-break:strict; text-wrap:pretty;
+}
+.wrap{max-width:1060px; margin:0 auto; padding:34px 16px 80px}
+
+header{padding:0 6px}
+h1{font-size:31px; font-weight:900; line-height:1.4; margin:0}
+.lede{color:var(--muted); font-size:13.5px; line-height:1.8; margin:14px 0 0}
+
+section{background:var(--panel); border-radius:22px; padding:26px 22px 30px; margin-top:22px}
+.snum{display:inline-block; background:var(--accent); color:#fff; font-weight:900;
+  font-size:14px; border-radius:999px; padding:3px 15px; margin-bottom:12px}
+h2{font-size:25px; font-weight:900; line-height:1.45; margin:0}
+.sdesc{color:var(--muted); font-size:13.5px; margin:10px 0 0; line-height:1.8}
+h3.sub{font-size:19px; font-weight:900; margin:34px 0 0}
+
+p{margin:18px 0}
+ul{margin:22px 0 0; padding:0; list-style:none}
+li{background:var(--box); border-radius:14px; padding:13px 18px; margin:10px 0;
+  font-size:15px; line-height:1.9}
+
+.pull{margin:26px 0 0; padding:22px; background:var(--accent-bg); border-radius:18px;
+  font-size:18.5px; font-weight:700; line-height:1.8; color:var(--accent-d)}
+
+details{margin-top:24px; background:var(--box); border-radius:18px}
+summary{cursor:pointer; padding:18px 20px; font-size:18px; font-weight:900;
+  list-style:none; display:flex; align-items:center; justify-content:space-between; gap:12px}
+summary::-webkit-details-marker{display:none}
+summary .hint{font-size:12.5px; color:var(--muted); font-weight:500; white-space:nowrap}
+summary .hint::after{content:"とじる"}
+details:not([open]) summary .hint::after{content:"ひらく"}
+.dbody{padding:0 20px 24px}
+.dbody p{font-size:16px}
+.dbody li{background:#fff}
+
+figure{margin:24px 0}
+figcaption{font-size:13px; color:var(--muted); margin-top:12px; line-height:1.8}
+svg{display:block; width:100%; height:auto}
+
+.card{background:var(--box); border-radius:18px; padding:20px 20px 22px; margin:20px 0 0}
+.card h3{font-size:19px; font-weight:900; margin:0}
+details.stage{padding:0; margin:20px 0 0}
+details.stage>summary{padding:18px 20px; font-size:19px}
+details.stage .dbody{padding:0 20px 22px}
+details.stage .dbody .tag{margin-top:0}
+.card li{background:#fff; border-radius:12px}
+.card ol{list-style:none; counter-reset:m; margin:16px 0 0; padding:0}
+.card ol li{counter-increment:m; position:relative; background:#fff; border-radius:12px;
+  margin:10px 0; padding:12px 14px 12px 42px; font-size:14px; line-height:1.85}
+.card ol li::before{
+  content:counter(m); position:absolute; left:12px; top:14px;
+  width:21px; height:21px; border-radius:50%; background:var(--accent); color:#fff;
+  font-size:12px; font-weight:900; line-height:21px; text-align:center;
+}
+.tag{font-size:13px; color:var(--muted); margin:8px 0 0; line-height:1.7}
+.mono{font-size:22px; font-weight:700; letter-spacing:.34em; line-height:2.0; margin:12px 0 0}
+.sample{font-size:17px; line-height:2.15; margin:12px 0 0}
+
+table.judge{width:100%; border-collapse:separate; border-spacing:0; margin:16px 0 0;
+  background:var(--box); border-radius:16px; overflow:hidden; table-layout:fixed}
+table.judge th{font-size:12.5px; font-weight:700; color:var(--muted); text-align:left;
+  padding:12px 12px; background:#EBE7DC; line-height:1.5}
+table.judge td{font-size:14.5px; line-height:1.8; text-align:left; vertical-align:top;
+  padding:14px 12px; border-top:1px solid var(--line)}
+table.judge th:first-child,table.judge td:first-child{padding-left:16px}
+table.judge th:last-child,table.judge td:last-child{padding-right:16px}
+table.judge col.c0{width:52px} table.judge col.c1{width:23%}
+table.judge col.c2{width:19%} table.judge col.c3{width:auto}
+table.judge tbody tr{cursor:pointer}
+table.judge tbody tr:hover td{background:#EFEBE0}
+table.judge tr.on td{background:#DDEDE4}
+table.judge td.chk{text-align:center; padding-left:14px; padding-right:0}
+table.judge input[type=checkbox]{
+  appearance:none; -webkit-appearance:none; width:22px; height:22px; margin:0;
+  border:2px solid #B9B2A5; border-radius:6px; background:#fff; cursor:pointer;
+  vertical-align:middle; position:relative;
+}
+table.judge input[type=checkbox]:checked{background:var(--accent); border-color:var(--accent)}
+table.judge input[type=checkbox]:checked::after{
+  content:""; position:absolute; left:6px; top:2px; width:5px; height:10px;
+  border:solid #fff; border-width:0 2.5px 2.5px 0; transform:rotate(42deg);
+}
+table.judge td.res{font-weight:900; color:var(--accent)}
+table.judge td.pos{color:var(--muted)}
+@media (max-width:430px){
+  table.judge th{font-size:11.5px; padding:10px 8px}
+  table.judge td{font-size:13px; padding:12px 8px; line-height:1.7}
+  table.judge th:first-child,table.judge td:first-child{padding-left:12px}
+  table.judge th:last-child,table.judge td:last-child{padding-right:12px}
+}
+
+.clock{display:flex; flex-wrap:wrap; gap:12px; margin:20px 0 0}
+.clock div{flex:1 1 200px; background:var(--box); border-radius:16px; padding:16px 18px}
+.clock strong{display:block; font-weight:900; font-size:16px; margin-bottom:4px}
+.clock span{font-size:14px; color:var(--muted); line-height:1.8}
+
+.flag{margin:24px 0 0; padding:20px; background:var(--flagbg); border-radius:18px;
+  font-size:15.5px; line-height:1.9}
+.flag b{display:block; font-size:18px; font-weight:900; color:var(--flag); margin-bottom:6px}
+
+footer{margin-top:26px; padding:0 8px; font-size:13px; color:var(--muted); line-height:1.9}
+.layout{display:block}
+.toc{display:none}
+@media (min-width:1040px){
+  .layout{display:flex; justify-content:center; align-items:flex-start; gap:30px;
+    padding:0 20px}
+  .layout .wrap{margin:0; flex:0 1 1060px; min-width:0}
+  .toc{
+    display:block; position:sticky; top:40px; margin-top:44px;
+    flex:0 0 232px; width:232px;
+    font-size:13.5px; line-height:1.7;
+  }
+  .toc .tt{font-size:12px; color:var(--muted); font-weight:700; letter-spacing:.08em; margin-bottom:10px}
+  .toc a{
+    display:flex; gap:9px; align-items:baseline;
+    padding:8px 12px; margin:2px 0; border-radius:12px;
+    color:var(--muted); text-decoration:none; font-weight:700;
+    transition:background .12s, color .12s;
+  }
+  .toc a .n{font-size:12px; opacity:.7}
+  .toc a:hover{background:#E7DFCF; color:var(--ink)}
+  .toc a.on{background:var(--accent); color:#fff}
+  .toc a.on .n{opacity:.8}
+}
+html{scroll-behavior:smooth}
+section{scroll-margin-top:24px}
+
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent); outline-offset:3px}
+@media (max-width:430px){
+  .wrap{padding:26px 12px 64px}
+  h1{font-size:27px} h2{font-size:22px}
+  section{padding:22px 16px 26px; border-radius:18px}
+  .mono{letter-spacing:.24em; font-size:20px}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<nav class="toc" aria-label="目次">
+  <div class="tt">もくじ</div>
+  <a href="#s1"><span class="n">1</span>クラスで起きていること</a>
+  <a href="#s2"><span class="n">2</span>読めるまでの道すじ</a>
+  <a href="#s3"><span class="n">3</span>どこで詰まっているかを見る</a>
+  <a href="#s4"><span class="n">4</span>明日からの手立て</a>
+</nav>
+
+<div class="wrap">
+
+<header>
+  <h1>読めないを<br>読めるにする</h1>
+  <p class="lede">小学1年生・国語<br>よくある姿、読めるまでの道すじ、現在地の見方、明日からの手立て。</p>
+</header>
+
+<section id="s1">
+  <div class="snum">1</div>
+  <h2>クラスで起きていること</h2>
+  <p class="sdesc">まず、1年生の教室でよく見られる姿を並べます。</p>
+  <ul><li>物語の学習をクイズ形式にすると、みんなノリノリで答えに来る。けれどテストになると点が出ない。</li><li>カタカナと漢字が始まったが、ひらがなが積み切っていないところに載せている。</li><li>短い言葉や読んでほしいものを覚えてしまい、文字を見ずに口から出てくる。教科書を横に向いたまま読んでいることがある。</li><li>図書室は好きで行く。写真や絵は見ているが、文字は大人が指さして読んであげている。</li><li>読めないのが先なのか、覚えていないのが先なのか、優先順位がつかない。</li><li>単元によっては読む時間が取れず、音読が家任せになる。</li></ul>
+  <p class="pull">つまずきの正体は、読む機会が少なかったことではなく、推測で読めてしまう状態が続いていること。</p>
+</section>
+
+<section id="s2">
+  <div class="snum">2</div>
+  <h2>読めるまでの道すじ</h2>
+  <p class="sdesc">なぜこの順番なのか、の根拠です。急ぐ日は飛ばして3へ。</p>
+
+  <details>
+    <summary>読みの科学で分かっていること<span class="hint"></span></summary>
+    <div class="dbody">
+      <p>読解力は、解読（文字を音にする）と言語理解の掛け算でできています。どちらかがゼロなら読解はゼロ。クイズは盛り上がるのにテストが伸びないのは、言語理解は動いていたのに解読が足りていなかった、と説明がつきます。</p>
+      <figure><svg viewBox="0 0 680 460" role="img" aria-labelledby="t1 d1"><title id="t1">話し言葉から読解までの道すじ</title><desc id="d1">話し言葉と語彙を土台に、音韻意識、文字と音の対応、解読、流暢性を経て読解に至る流れ</desc><defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#B9B2A5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></marker></defs><rect x="0" y="0" width="680" height="62" rx="14" fill="#F1EEE5"/><text x="22" y="27" font-size="17" font-weight="700" fill="#33302B">土台　話し言葉と語彙</text><text x="22" y="48" font-size="13.5" fill="#77716A">聞いて分かる言葉の量　経験と結びついた意味</text><line x1="340" y1="65" x2="340" y2="80" stroke="#B9B2A5" stroke-width="2" marker-end="url(#ar)"/><rect x="0" y="84" width="680" height="62" rx="14" fill="#F1EEE5"/><text x="22" y="111" font-size="17" font-weight="700" fill="#33302B">1　音韻意識</text><text x="22" y="132" font-size="13.5" fill="#77716A">ねこを　ね・こ　に分けられる　文字より先に育つ</text><line x1="340" y1="149" x2="340" y2="164" stroke="#B9B2A5" stroke-width="2" marker-end="url(#ar)"/><rect x="0" y="168" width="680" height="62" rx="14" fill="#D9EBE2"/><text x="22" y="195" font-size="17" font-weight="700" fill="#14523E">2　文字と音の対応</text><text x="22" y="216" font-size="13.5" fill="#77716A">この形はこの音　経験からは導けない　教える領域</text><line x1="340" y1="233" x2="340" y2="248" stroke="#B9B2A5" stroke-width="2" marker-end="url(#ar)"/><rect x="0" y="252" width="680" height="62" rx="14" fill="#F1EEE5"/><text x="22" y="279" font-size="17" font-weight="700" fill="#33302B">3　解読</text><text x="22" y="300" font-size="13.5" fill="#77716A">音をつないで語にする　知らない語も読める</text><line x1="340" y1="317" x2="340" y2="332" stroke="#B9B2A5" stroke-width="2" marker-end="url(#ar)"/><rect x="0" y="336" width="680" height="62" rx="14" fill="#F1EEE5"/><text x="22" y="363" font-size="17" font-weight="700" fill="#33302B">4　流暢性</text><text x="22" y="384" font-size="13.5" fill="#77716A">自動化して負荷が消える　量でしか来ない</text><line x1="340" y1="401" x2="340" y2="416" stroke="#B9B2A5" stroke-width="2" marker-end="url(#ar)"/><rect x="0" y="420" width="680" height="40" rx="14" fill="#1F7A5A"/><text x="340" y="446" font-size="17" font-weight="700" text-anchor="middle" fill="#FFFFFF">読解　＝　ここまでの解読　×　土台の言語理解</text></svg>
+        <figcaption>土台と1は入学前からかなり育っている。ただし2だけは、経験では埋まらない。りんごを多角的に経験して覚えるのとは別の話で、ここは短く直接教えたほうが速い。</figcaption>
+      </figure>
+      <p>この道すじの2から4を、語の読み方という角度から拡大すると、次の4段階になります。</p>
+      <figure><svg viewBox="0 0 680 314" role="img" aria-labelledby="t2 d2"><title id="t2">語を読めるようになるまでの4段階</title><desc id="d2">文字を使わない段階から、部分的な手がかり、一字ずつの解読、まとまりでの認識へ進む段階</desc><rect x="0" y="0" width="680" height="62" rx="14" fill="#F1EEE5"/><text x="22" y="27" font-size="17" font-weight="700" fill="#33302B">1　文字を使っていない</text><text x="22" y="48" font-size="13.5" fill="#77716A">看板の形や色で当てる　文字は見ていない</text><line x1="340" y1="65" x2="340" y2="80" stroke="#B9B2A5" stroke-width="2" marker-end="url(#ar)"/><rect x="0" y="84" width="680" height="62" rx="14" fill="#FBE7CE"/><text x="22" y="111" font-size="17" font-weight="700" fill="#8E4A0C">2　一部の文字を手がかりにする</text><text x="22" y="132" font-size="13.5" fill="#77716A">最初の一字と記憶で推測　似た語で取り違える</text><line x1="340" y1="149" x2="340" y2="164" stroke="#B9B2A5" stroke-width="2" marker-end="url(#ar)"/><rect x="0" y="168" width="680" height="62" rx="14" fill="#D9EBE2"/><text x="22" y="195" font-size="17" font-weight="700" fill="#14523E">3　全部の文字を音に変える</text><text x="22" y="216" font-size="13.5" fill="#77716A">知らない語も読める　遅いが正確　ここが分かれ目</text><line x1="340" y1="233" x2="340" y2="248" stroke="#B9B2A5" stroke-width="2" marker-end="url(#ar)"/><rect x="0" y="252" width="680" height="62" rx="14" fill="#F1EEE5"/><text x="22" y="279" font-size="17" font-weight="700" fill="#33302B">4　まとまりで一瞬に読む</text><text x="22" y="300" font-size="13.5" fill="#77716A">解読の負荷が消え　理解に余力が回る</text></svg>
+        <figcaption>覚えた言葉が文字を見ずに口から出てくるのは、段階2のど真ん中の姿。サボっているのではなく、発達段階としてそこにいる。</figcaption>
+      </figure>
+      <ul><li>段階2は推測が効くので、短い文なら読めているように見えてしまう。だから発見が遅れる。</li><li>段階2から3への移行が、いちばん自力では起きにくい。推測でうまくいっている間は、全部の文字を音に変える理由がないから。</li><li>子どもは、自分で一字ずつ解読した経験を通して、その語の形を丸ごと記憶に焼きつける。つまり自力で解読する機会そのものが教材になる。</li><li>だから、推測が効かない材料を出すしかない。それが初見の文であり、意味のない文字列。</li><li>段階4は量でしか来ない。逆に、段階3に届いていない子に量を積んでも段階4には届かない。</li></ul>
+    </div>
+  </details>
+</section>
+
+<section id="s3">
+  <div class="snum">3</div>
+  <h2>どこで詰まっているかを見る</h2>
+  <p class="sdesc">まとめてやらなくて大丈夫。音読チェックのついでに、ひとり2分。数人いても数日で終わります。</p>
+
+  <div class="card">
+    <h3>テストA　1文字が読めるか</h3>
+    <p class="tag">50音表から、順番ではなくバラバラに指さして読ませる／1分</p>
+    <p class="mono">す　ね　た　ほ　み　え　ゆ　ろ　け　わ</p>
+    <p class="mono">ク　ソ　ネ　ヌ　マ　ム　シ　ツ　ヤ　レ</p>
+    <p class="tag">カタカナは似た形をあえて入れています（ソとン、シとツ、クとタ）。</p>
+  </div>
+
+  <div class="card">
+    <h3>テストB　知らない単語が読めるか</h3>
+    <p class="tag">意味のない2〜3文字。覚えていて言える、が起きない材料／30秒</p>
+    <p class="mono">ぬりせ　かたむ　めしろ　とへぬ</p>
+    <p class="mono">カテヌ　ミソラ　ヘクト　ヌマシ</p>
+  </div>
+
+  <div class="card">
+    <h3>テストC　初見の文が読めるか</h3>
+    <p class="tag">一度も見ていない短文をひとつ。つっかえ方と速さを見る／30秒</p>
+    <p class="sample">きのう　ねこが　にわで　ボールを　ころがして　あそんで　いました。</p>
+  </div>
+
+  <h3 class="sub">判定表</h3>
+  <table class="judge"><colgroup><col class="c0"><col class="c1"><col class="c2"><col class="c3"></colgroup><thead><tr><th></th><th>結果</th><th>現在地</th><th>明日やること</th></tr></thead><tbody><tr><td class="chk"><input type="checkbox" aria-label="Aが崩れる"></td><td class="res">Aが崩れる</td><td class="pos">4段階の1〜2</td><td>音遊び＋文字1〜2字を毎日3分（下の段階1へ）</td></tr><tr><td class="chk"><input type="checkbox" aria-label="AはできてBが崩れる"></td><td class="res">Aはできて<br>Bが崩れる</td><td class="pos">4段階の2</td><td>知らない語・意味のない文字列を読ませる。カタカナの長音・拗音・促音を別で教える（段階2へ）</td></tr><tr><td class="chk"><input type="checkbox" aria-label="BまでできてCが遅い"></td><td class="res">Bまでできて<br>Cが遅い</td><td class="pos">4段階の3</td><td>30秒音読。初見しばり。繰り返し読み（段階3へ）</td></tr><tr><td class="chk"><input type="checkbox" aria-label="Cまですらすら"></td><td class="res">Cまですらすら</td><td class="pos">4段階の4</td><td>どこに書いてある？を必ずセットにする（段階4へ）</td></tr></tbody></table>
+</section>
+
+<section id="s4">
+  <div class="snum">4</div>
+  <h2>明日からの手立て</h2>
+  <p class="sdesc">全員でやるのは段階3の30秒だけ。段階1と2は、必要な子にだけ。</p>
+  <div class="card"><h3>段階1　音と文字</h3><p class="tag">毎日3分／必要な子だけ／準備はほぼゼロ</p><ol><li>音遊びを先に。「ねこの最初の音は？」「かめから　か　をとったら？」しりとり。</li><li>文字は1日1〜2字。新出を増やすより、復習の回転数を上げる。</li><li>キャラでフックを作る。ピはピカチュウ、マはマイクラ。</li><li>口の形は正面で、大きく、ゆっくり見せる。真似から入る。</li></ol></div><details class="card stage"><summary>段階2　単語で読む<span class="hint"></span></summary><div class="dbody"><p class="tag">すきま3分／必要な子だけ</p><ol><li>順番は、知っている語 → 知らない語 → 意味のない文字列。</li><li>カタカナの特殊音だけ独立して教える。長音（ー）、拗音（ャュョ）、促音（ッ）。</li><li>視写プリントはここで使う。写したあと、必ず声に出させる。</li></ol></div></details><details class="card stage"><summary>段階3　文を読む<span class="hint"></span></summary><div class="dbody"><p class="tag">授業の冒頭30秒／全員</p><ol><li>条件は3つ。初見であること、ひらがなとカタカナだけ、30秒で読み切れる長さ。</li><li>地の文は素直に。キャラ名だけご褒美にする。</li><li>日替わりでひとり読み、そのあとみんなで読む。</li><li>週1回、同じ文を3回読むタイムアタック。1回目より3回目が速い体験をつくる。</li></ol><p class="sample">カビゴンが　ごはんを　たべすぎて　おなかが　いたく　なりました。<br>ピカチュウが　きの　うえで　ねむって　いたら、みが　おちて　きました。<br>クリーパーが　しずかに　ちかづいて　きたので、みんなで　にげました。<br>ゾンビが　よるに　あらわれて、まどを　たたいて　いました。</p></div></details><details class="card stage"><summary>段階4　読解につなぐ<span class="hint"></span></summary><div class="dbody"><p class="tag">単元の中で</p><ol><li>読み取りの前に必ず音読。先生が読む → 一緒に読む → ひとりで読む。</li><li>問いに「どこに書いてある？指さして」を必ずセットにする。</li><li>スペシャル問題（どんな気持ちだった）は残す。ただし本文に戻る動きとセットで。</li></ol></div></details>
+  <h3 class="sub">1日4分の最小構成</h3>
+  <div class="clock"><div><strong>朝　30秒</strong><span>音遊びを1問。全員。教材はいらない。</span></div><div><strong>授業の冒頭　30秒</strong><span>初見の短文をひとり読み＋みんな読み。全員。</span></div><div><strong>すきま　3分</strong><span>段階1・2の子だけ個別。支援員さんが入れる場面で。</span></div></div>
+  <p class="flag"><b>新しく作るのは、30秒音読の例文ストックだけ。</b>AIでまとめて作れば、作成コストは実質1回きりで終わります。</p>
+</section>
+
+<footer>読解 ＝ 解読 × 言語理解</footer>
+
+</div>
+</div>
+<script>
+(function(){
+  var links = [].slice.call(document.querySelectorAll('.toc a'));
+  if(!links.length) return;
+  var secs = links.map(function(a){ return document.querySelector(a.getAttribute('href')); });
+  function update(){
+    var line = window.innerHeight * 0.3, cur = 0;
+    secs.forEach(function(sec, i){ if(sec && sec.getBoundingClientRect().top <= line) cur = i; });
+    links.forEach(function(a, i){ a.classList.toggle('on', i === cur); });
+  }
+  var tick = false;
+  window.addEventListener('scroll', function(){
+    if(tick) return; tick = true;
+    requestAnimationFrame(function(){ update(); tick = false; });
+  }, {passive:true});
+  window.addEventListener('resize', update);
+  update();
+})();
+(function(){
+  var rows = [].slice.call(document.querySelectorAll('table.judge tbody tr'));
+  rows.forEach(function(tr){
+    var box = tr.querySelector('input[type=checkbox]');
+    if(!box) return;
+    function sync(){ tr.classList.toggle('on', box.checked); }
+    tr.addEventListener('click', function(e){
+      if(e.target !== box){ box.checked = !box.checked; }
+      sync();
+    });
+    box.addEventListener('change', sync);
+  });
+})();
+</script>
+</body>
+</html>
