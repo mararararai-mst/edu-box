@@ -31,6 +31,8 @@ body {
 .hd { padding: 40px 4px 26px; }
 .hd h1 { font-size: 40px; font-weight: 900; letter-spacing: .06em; line-height: 1.2; }
 .hd .sub { font-size: 15px; color: #6E6053; margin-top: 10px; letter-spacing: .04em; }
+.hd .total { font-size: 14px; font-weight: 700; color: #5C4F42; margin-top: 8px; letter-spacing: .04em; }
+.now-sub { font-size: 13px; color: #6E6053; margin: -6px 0 16px; }
 .hd .note { font-size: 12px; color: #6E6053; margin-top: 16px; line-height: 1.6; }
 
 /* ── 中に入ったときの見出し ── */
@@ -568,6 +570,11 @@ const isNew = it => it.added && (Date.now() - new Date(it.added + "T00:00:00")) 
 /* intro の章（まとめマップの入口）は各分野のまとめマップに出すので、「そのほか」には入れない */
 const OTHERS = () => ITEMS.filter(i => !FIELDS.includes(i.badge) && i.chapter !== "intro");
 const cnt = f => ITEMS.filter(i => i.badge === f).length;
+/* アプリ（まとめマップ以外）とまとめマップを分けて数える */
+const isMap = i => i.cat === "maps";
+const split = list => ({ apps: list.filter(i => !isMap(i)).length, maps: list.filter(isMap).length });
+const splitTxt = list => { const c = split(list);
+  return "アプリ " + c.apps + (c.maps ? " ／ マップ " + c.maps : ""); };
 
 function cardHTML(it) {
   const nw = isNew(it);
@@ -636,13 +643,15 @@ function topHTML(searching) {
   if (state.view === "entry") {
     return '<div class="hd"><h1>教材ボックス</h1>'
       + '<div class="sub">アイデアをカタチに。</div>'
+      + '<div class="total">全' + ITEMS.length + '件（アプリ ' + split(ITEMS).apps + ' ／ まとめマップ ' + split(ITEMS).maps + '）</div>'
       + '<div class="note">校務PCで使うときは このHTMLをダウンロードして開いてね</div></div>';
   }
   const nm = state.view === "other" ? "そのほか" : state.pick;
   const n = state.view === "other" ? OTHERS().length : cnt(state.pick);
   const c = state.view === "other" ? "#5C4F42" : col(state.pick);
   return '<button class="back" id="back">← 入り口にもどる</button>'
-    + '<div class="now" style="color:' + c + '">' + esc(nm) + '　' + n + '件</div>';
+    + '<div class="now" style="color:' + c + '">' + esc(nm) + '　' + n + '件</div>'
+    + '<div class="now-sub">' + splitTxt(state.view === "other" ? OTHERS() : ITEMS.filter(i => i.badge === state.pick)) + '</div>';
 }
 
 function entryHTML() {
@@ -650,14 +659,14 @@ function entryHTML() {
     const n = cnt(f);
     if (!n) return '<div class="tile empty"><div class="tn">' + f + '</div><div class="tc">準備中</div></div>';
     return '<button class="tile" data-f="' + f + '" style="background:' + FCOL[f] + '">'
-      + '<div class="tn">' + f + '</div><div class="tc">' + n + ' 件</div></button>';
+      + '<div class="tn">' + f + '</div><div class="tc">' + splitTxt(ITEMS.filter(i => i.badge === f)) + '</div></button>';
   }).join("");
   const o = OTHERS();
   const names = OTHER_ORDER_BASE.filter(c => o.some(i => i.cat === c))
     .map(c => (CATNM[c] || c).replace(/（.*$/, "")).slice(0, 3).join("／");
   return '<div class="tiles">' + tiles + '</div>'
     + '<button class="other" data-f="__other"><div class="tn">そのほか</div>'
-    + '<div class="tc">' + o.length + ' 件（' + esc(names) + ' ほか）</div></button>';
+    + '<div class="tc">' + splitTxt(o) + '（' + esc(names) + ' ほか）</div></button>';
 }
 
 function fieldHTML() {
