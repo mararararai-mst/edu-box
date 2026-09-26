@@ -50,8 +50,9 @@ body {
 .sb input::placeholder { color: #7F7160; }
 .sb input:focus { box-shadow: 0 0 0 3px rgba(122,107,90,.14); }
 
-/* ── 入り口タイル（2列×2段＋そのほか） ── */
+/* ── 入り口タイル（2列。奇数枚のときは最後の1枚を横いっぱいに＋そのほか） ── */
 .tiles { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.tiles > :last-child:nth-child(odd) { grid-column: 1 / -1; }
 .tile {
   border: none; font-family: inherit; text-align: left; cursor: pointer;
   border-radius: 14px; padding: 26px 20px 22px; color: #fff; display: block;
@@ -136,7 +137,7 @@ footer { margin-top: 44px; font-size: 12px; color: #6E6053; padding: 0 4px; line
 /* ════════════════════════════════════════════════
    教材データ（新しい教材はここに1エントリ足すだけ。
    件数・章のマップ数・フッターは自動計算されます）
-   badge: 生物/化学/物理/地学/支援/算数/社会/レク/幼児
+   badge: 生物/化学/物理/地学/保健/支援/算数/社会/レク/幼児
    added: 追加日（21日以内は NEW バッジが自動でつく）
 ════════════════════════════════════════════════ */
 const ITEMS = [
@@ -240,6 +241,31 @@ const ITEMS = [
  desc:"等速と だんだん速くなる運動のグラフがごっちゃになるのを直す。直線はどちらにも出てくる、ちがうのは「たての軸」。1台で値を変えて動かす→同じ32mを4秒で進む2台をくらべる→グラフだけ見て当てる→斜面の傾きを変えて線を重ねる",
  meta:"中3理科 単元3-1 p.134-143", href:"https://mararararai-mst.github.io/undou-graph-lab/", added:"2026-09-09"},
 
+{cat:"chu3", badge:"物理", icon:"⚡", title:"確かめ｜電流のはたらき",
+ desc:"一問一答で単元を確かめる。読み上げボタンつき、もう一回やるでくり返せる",
+ meta:"中3理科 確かめ（中2内容の復習）", href:"https://mararararai-mst.github.io/9nen-rika-tashikame/denryu.html", added:"2026-09-26"},
+
+{cat:"chu3", badge:"物理", icon:"🧲", title:"確かめ｜電流と磁界",
+ desc:"一問一答で単元を確かめる。読み上げボタンつき、もう一回やるでくり返せる",
+ meta:"中3理科 確かめ（中2内容の復習）", href:"https://mararararai-mst.github.io/9nen-rika-tashikame/jikai.html", added:"2026-09-26"},
+
+{cat:"chu3", badge:"生物", icon:"🌱", title:"確かめ｜成長と細胞分裂",
+ desc:"一問一答で単元を確かめる。読み上げボタンつき、もう一回やるでくり返せる",
+ meta:"中3理科 確かめ", href:"https://mararararai-mst.github.io/9nen-rika-tashikame/seicho.html", added:"2026-09-26"},
+
+{cat:"chu3", badge:"生物", icon:"🐣", title:"確かめ｜生殖と発生",
+ desc:"一問一答で単元を確かめる。読み上げボタンつき、もう一回やるでくり返せる",
+ meta:"中3理科 確かめ", href:"https://mararararai-mst.github.io/9nen-rika-tashikame/hassei.html", added:"2026-09-26"},
+
+{cat:"chu3", badge:"生物", icon:"🧬", title:"確かめ｜遺伝",
+ desc:"一問一答で単元を確かめる。読み上げボタンつき、もう一回やるでくり返せる",
+ meta:"中3理科 確かめ", href:"https://mararararai-mst.github.io/9nen-rika-tashikame/iden.html", added:"2026-09-26"},
+
+// ── 中3保健 ──
+{cat:"hoken", badge:"保健", icon:"🌡️", title:"健康と環境ラボ",
+ desc:"中3保健6章の全7項目を、自分の順番・自分のペースで進める。体温調節シミュレーターつき",
+ meta:"中3保健 6章 P.170-183", href:"https://mararararai-mst.github.io/kenko-kankyo-lab/", added:"2026-09-26"},
+
 // ── 小学校・支援 ──
 {cat:"elem", badge:"支援", icon:"✏️", title:"ただしいひらがな",
  desc:"えとことばの あなうめで、正しい字を えらぶ（支援学級向け）",
@@ -299,6 +325,10 @@ const ITEMS = [
  desc:"タップでシャボン玉を割る指あそび。たまに動物の絵柄が入った玉も登場",
  meta:"1歳〜", href:"https://mararararai-mst.github.io/bubble-pop/", added:"2026-05-23"},
 
+{cat:"rec", badge:"レク", icon:"🎮", title:"ゲームボックス",
+ desc:"自作ゲームの置き場。ピクセルランナー（レトロ横スクロールアクション）、ピクセルシューター、ぷにぷにチェイン、しょうぎどうじょう、トラックボールどうじょう、ろーまじタイピングなど7本をここから開ける",
+ meta:"全学年・あそび／情報（タイピング・マウス操作）", href:"https://mararararai-mst.github.io/game-box/", added:"2026-09-26"},
+
 // ── 授業デザイン系 ──
 // ── 心・ふりかえり ──
 {cat:"kokoro", icon:"📍", title:"心マトリクス ふりかえり",
@@ -313,7 +343,24 @@ const ITEMS = [
  desc:"全体フローの可視化",
  meta:"国語", href:"https://mararararai-mst.github.io/kokugo-design/", added:"2026-05-09"},
 
-// ── まとめマップ（chapter: plant / animal / chem2） ──
+{cat:"design", icon:"🗺️📝", title:"まとめマップをつくる② 授業デザインフロー",
+ desc:"まとめマップを生徒自身が作る授業の設計3ページ。目指す姿／本時の組み立て／観察ツールを1セットに",
+ meta:"中1理科 P.34-35（先生用）", href:"https://mararararai-mst.github.io/matome-lesson-design/", added:"2026-09-26"},
+
+// ── まとめマップ（chapter: intro / plant / animal / chem2 / bio2cell / hoken3） ──
+// intro の章は badge なし。まとめマップがある分野すべての先頭に出る
+{cat:"maps", chapter:"intro", icon:"📊", title:"中学理科 まとめマップ（目次）",
+ desc:"教科書ページを1枚のマップに。用語のつながりが見えれば「覚える」が「分かる」に変わる（QNKS発展版）",
+ meta:"まとめマップの入口", href:"https://mararararai-mst.github.io/matome-maps/", added:"2026-09-26"},
+
+{cat:"maps", chapter:"intro", icon:"💡", title:"なぜ自分で作ると「ちゃんとわかる」のか",
+ desc:"読むだけと、描くこと、何が違うんだろう",
+ meta:"まとめマップの入口", href:"https://mararararai-mst.github.io/matome-maps/hajimeni.html", added:"2026-09-26"},
+
+{cat:"maps", chapter:"intro", icon:"✏️", title:"まとめマップを自分でつくる（練習ツール）",
+ desc:"語句を動かして矢印でつなぐ、まとめマップ作成練習ツール",
+ meta:"まとめマップの入口", href:"https://mararararai-mst.github.io/matome-maps/make-map.html", added:"2026-09-26"},
+
 {cat:"maps", chapter:"plant", badge:"生物", icon:"🌸", title:"花のつくり",
  words:"花弁 ／ がく ／ おしべ ／ めしべ ／ 離弁花 ／ 合弁花 ／ 子房 ／ 胚珠 ／ 柱頭 ／ やく ／ 花粉",
  meta:"中1理科 P.31", href:"https://mararararai-mst.github.io/matome-maps/chu1-p31-hana-no-tsukuri.html", added:"2026-05-09"},
@@ -341,6 +388,21 @@ const ITEMS = [
 {cat:"maps", chapter:"plant", badge:"生物", icon:"🌳", title:"植物の分類まとめ（全体ツリー）",
  words:"植物 ／ 種子植物 ／ 被子植物 ／ 裸子植物 ／ 双子葉類 ／ 単子葉類 ／ 種子をつくらない植物 ／ シダ植物 ／ コケ植物",
  meta:"中1理科 P.43-44 ＝ 単元まとめ", href:"https://mararararai-mst.github.io/matome-maps/chu1-p43-44-shokubutsu-zentai-bunrui.html", added:"2026-05-09"},
+
+{cat:"maps", chapter:"plant", badge:"生物", icon:"🌱", title:"植物の分類 25語マップ 作成例【案A】",
+ desc:"グループの下に共通の特徴（種子・胚珠／胞子・胞子のう）を置いた作成例。案Bと見くらべられる",
+ words:"種子植物 ／ 種子をつくらない植物 ／ 被子植物 ／ 裸子植物 ／ シダ植物 ／ コケ植物 ／ 双子葉類 ／ 単子葉類 ／ 子房 ／ 胚珠 ／ 胞子 ／ 仮根 ／ 網状脈 ／ 平行脈 ／ 主根 ／ 側根 ／ ひげ根",
+ meta:"中1理科 P.43-44 ＝ 作成例", href:"https://mararararai-mst.github.io/matome-maps/chu1-p43-44-shokubutsu-25go-kaitorei-A.html", added:"2026-09-26"},
+
+{cat:"maps", chapter:"plant", badge:"生物", icon:"🌱", title:"植物の分類 25語マップ 作成例【案B】",
+ desc:"分かれ道そのものに「種子」「胞子・胞子のう」を置いた作成例。案Aと見くらべられる",
+ words:"種子植物 ／ 種子をつくらない植物 ／ 被子植物 ／ 裸子植物 ／ シダ植物 ／ コケ植物 ／ 双子葉類 ／ 単子葉類 ／ 子房 ／ 胚珠 ／ 胞子 ／ 仮根 ／ 網状脈 ／ 平行脈 ／ 主根 ／ 側根 ／ ひげ根",
+ meta:"中1理科 P.43-44 ＝ 作成例", href:"https://mararararai-mst.github.io/matome-maps/chu1-p43-44-shokubutsu-25go-kaitorei-B.html", added:"2026-09-26"},
+
+{cat:"maps", chapter:"plant", badge:"生物", icon:"🌸", title:"植物の分類 25語+花マップ 作成例【案C】",
+ desc:"25語に花のつくり（がく・花弁・おしべ・めしべ）までつなげた作成例",
+ words:"種子植物 ／ 被子植物 ／ 裸子植物 ／ 花 ／ がく ／ 花弁 ／ おしべ ／ めしべ ／ 離弁花 ／ 合弁花 ／ やく ／ 花粉 ／ 柱頭 ／ 子房 ／ 胚珠",
+ meta:"中1理科 P.43-44 ＝ 作成例", href:"https://mararararai-mst.github.io/matome-maps/chu1-p43-44-shokubutsu-25go-kaitorei-C.html", added:"2026-09-26"},
 
 {cat:"maps", chapter:"animal", badge:"生物", icon:"🐟", title:"身近な動物の分類",
  words:"脊椎動物 ／ 無脊椎動物 ／ 背骨の有無 ／ 種類数の違い",
@@ -382,6 +444,10 @@ const ITEMS = [
  words:"全体ツリー＋各グループの特徴（体表・呼吸・うまれ方・外骨格・節・関節 など）＋代表動物（コイ・カエル・カニ・イカ…）／全40語",
  meta:"中1理科 P.46-57 ＝ 見本（答え）", href:"https://mararararai-mst.github.io/matome-maps/chu1-doubutsu-zentai-full.html", added:"2026-06-10"},
 
+{cat:"maps", chapter:"animal", badge:"生物", icon:"🐾", title:"動物の分類 課題表",
+ desc:"マップ確認→修正→自己テスト→肉付け→再テストの5ステップで進める課題表",
+ meta:"中1理科 P.46-57 ＝ 進め方", href:"https://mararararai-mst.github.io/matome-maps/chu1-doubutsu-kadaihyou.html", added:"2026-09-26"},
+
 {cat:"maps", chapter:"chem2", badge:"化学", icon:"🧪", title:"単体と化合物・物質の分類",
  words:"原子 ／ 分子 ／ 元素 ／ 元素記号 ／ 化学式 ／ 物質 ／ 純粋な物質 ／ 混合物 ／ 単体 ／ 化合物",
  meta:"中2理科 P.32-33（見開き）", href:"https://mararararai-mst.github.io/matome-maps/chu2-p32-33-tantai-kagobutsu.html", added:"2026-05-09"},
@@ -389,6 +455,14 @@ const ITEMS = [
 {cat:"maps", chapter:"chem2", badge:"化学", icon:"🛡️", title:"酸化を防ぐくふう",
  words:"酸化 ／ さび ／ 酸素 ／ 塗装 ／ めっき ／ トタン ／ ブリキ ／ 脱酸素剤 ／ 酸化防止剤 ／ 酸素にふれさせない",
  meta:"中2理科 化学1章（発展）", href:"https://mararararai-mst.github.io/matome-maps/chu2-p55-sanka-wo-fusegu.html", added:"2026-06-12"},
+
+{cat:"maps", chapter:"chem2", badge:"化学", icon:"⚙️", title:"製鉄の方法",
+ words:"たたら ／ 砂鉄（酸化鉄） ／ 木炭 ／ 鉄鉱石 ／ コークス ／ 酸素の移動 ／ 還元 ／ 酸化 ／ 二酸化炭素 ／ 炭素の量",
+ meta:"中2理科 P.61", href:"https://mararararai-mst.github.io/matome-maps/chu2-p61-seitetsu.html", added:"2026-09-26"},
+
+{cat:"maps", chapter:"chem2", badge:"化学", icon:"⚖️", title:"化学変化と物質の質量",
+ words:"質量保存の法則 ／ 質量の割合（質量比） ／ 沈殿 ／ 気体が出る反応 ／ 密閉 ／ 酸化物 ／ 銅：酸素＝4：1 ／ マグネシウム：酸素＝3：2 ／ 過不足",
+ meta:"中2理科 P.64-71", href:"https://mararararai-mst.github.io/matome-maps/chu2-p64-71-shitsuryou-hozon.html", added:"2026-09-26"},
 
 {cat:"maps", chapter:"bio2cell", badge:"生物", icon:"🌿", title:"植物の細胞",
  words:"細胞 ／ 孔辺細胞 ／ 葉緑体 ／ 液胞 ／ 核 ／ 基本的なつくり ／ 細胞壁 ／ 細胞膜",
@@ -426,6 +500,14 @@ const ITEMS = [
  words:"細胞 ／ 核 ／ 細胞膜 ／ 細胞質 ／ 細胞壁 ／ 葉緑体 ／ 液胞 ／ 単細胞生物 ／ 多細胞生物 ／ 組織 ／ 器官 ／ 個体 ／ 細胞の呼吸",
  meta:"中2理科 P.94-103 ＝ 章ぜんぶ", href:"https://mararararai-mst.github.io/matome-maps/chu2-1shou-seibutsu-to-saibou-zentai.html", added:"2026-09-02"},
 
+{cat:"maps", chapter:"bio2cell", badge:"生物", icon:"📋", title:"Q・N帯 中2 生物と細胞",
+ desc:"B5ノートの上部に貼る「問い（Q）と語句（N）」だけの帯。組み立て（K）と整理（S）はノート本体で子どもが行う",
+ meta:"中2理科 P.94-103 ＝ ノート用の帯", href:"https://mararararai-mst.github.io/matome-maps/qn-obi-chu2-p92-103-seibutsu-to-saibou.html", added:"2026-09-26"},
+
+{cat:"maps", chapter:"hoken3", badge:"保健", icon:"🌡️", title:"健康と環境",
+ words:"適応能力 ／ 熱中症・低体温症 ／ 至適温度 ／ 気温・湿度・気流 ／ 明るさ ／ 二酸化炭素 ／ 一酸化炭素 ／ 換気 ／ 飲料水 ／ 浄水場 ／ 生活排水",
+ meta:"中3保健 P.170-183", href:"https://mararararai-mst.github.io/matome-maps/chu3-hoken-p170-183-kenko-kankyo.html", added:"2026-09-26"},
+
 // ── 学校運営系 ──
 {cat:"school", icon:"📖", title:"TEACHER'S BIBLE",
  desc:"とどろみの森学園 2026 教師バイブル",
@@ -440,8 +522,9 @@ const ITEMS = [
 
 /* ── 分野（入り口）── */
 const RIKA = ["生物", "化学", "物理", "地学"];
+const FIELDS = RIKA.concat(["保健"]);   /* 入り口タイルに並ぶ分野（理科4分野＋保健） */
 const FCOL = {
-  "生物":"#2E7D32", "化学":"#D63384", "物理":"#1565C0", "地学":"#E07A1A",
+  "生物":"#2E7D32", "化学":"#D63384", "物理":"#1565C0", "地学":"#E07A1A", "保健":"#C62828",
   "算数":"#6A4FB1", "社会":"#00796B", "支援":"#7A5AA8", "レク":"#C05F00",
   "国語":"#B03A6B", "幼児":"#B27900", "技術":"#4A5560"
 };
@@ -452,21 +535,23 @@ const CATNM = {
   elem:"小学校・支援", social:"社会・公民", rec:"レク・あそび", tech:"技術・ものづくり",
   design:"授業デザイン（教師が授業設計に使う）", kokoro:"心・ふりかえり（学級経営／自己調整）",
   school:"学校運営（教師全体向け）",
-  chu1:"中1理科", chu2:"中2理科", chu3:"中3理科", maps:"まとめマップ"
+  chu1:"中1理科", chu2:"中2理科", chu3:"中3理科", hoken:"中3保健", maps:"まとめマップ"
 };
 const CATCOL = {
   elem:"#6A4FB1", social:"#00796B", rec:"#C05F00", tech:"#4A5560",
   design:"#2E7D32", kokoro:"#B03A6B", school:"#1565C0",
-  chu1:"#B57E00", chu2:"#2E7D32", chu3:"#D63384", maps:"#B27900"
+  chu1:"#B57E00", chu2:"#2E7D32", chu3:"#D63384", hoken:"#C62828", maps:"#B27900"
 };
 const OTHER_ORDER_BASE = ["elem", "social", "rec", "tech", "design", "kokoro", "school"];
 
 /* ── まとめマップの章 ── */
 const CHAPTERS = {
+  intro:   {label:"まとめマップって？（はじめに）",        pages:""},
   plant:   {label:"中1 ／ 生物2章「植物の分類」",         pages:"P.31〜44"},
   animal:  {label:"中1 ／ 生物3章「動物の分類」",         pages:"P.46〜57"},
-  chem2:   {label:"中2 ／ 化学1章「化学変化と原子・分子」", pages:"P.32〜"},
-  bio2cell:{label:"中2 ／ 生物1章「生物と細胞」",         pages:"P.94〜103"}
+  chem2:   {label:"中2 ／ 化学1章「化学変化と原子・分子」", pages:"P.32〜71"},
+  bio2cell:{label:"中2 ／ 生物1章「生物と細胞」",         pages:"P.94〜103"},
+  hoken3:  {label:"中3 ／ 保健6章「健康と環境」",         pages:"P.170〜183"}
 };
 
 const NEW_DAYS = 21;
@@ -476,7 +561,8 @@ const openChapters = new Set();
 const col = b => FCOL[b] || NEUTRAL;
 const esc = s => String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;");
 const isNew = it => it.added && (Date.now() - new Date(it.added + "T00:00:00")) < NEW_DAYS * 86400000;
-const OTHERS = () => ITEMS.filter(i => !RIKA.includes(i.badge));
+/* intro の章（まとめマップの入口）は各分野のまとめマップに出すので、「そのほか」には入れない */
+const OTHERS = () => ITEMS.filter(i => !FIELDS.includes(i.badge) && i.chapter !== "intro");
 const cnt = f => ITEMS.filter(i => i.badge === f).length;
 
 function cardHTML(it) {
@@ -556,7 +642,7 @@ function topHTML(searching) {
 }
 
 function entryHTML() {
-  const tiles = RIKA.map(f => {
+  const tiles = FIELDS.map(f => {
     const n = cnt(f);
     if (!n) return '<div class="tile empty"><div class="tn">' + f + '</div><div class="tc">準備中</div></div>';
     return '<button class="tile" data-f="' + f + '" style="background:' + FCOL[f] + '">'
@@ -572,7 +658,9 @@ function entryHTML() {
 
 function fieldHTML() {
   const list = ITEMS.filter(i => i.badge === state.pick);
-  const maps = list.filter(i => i.cat === "maps");
+  const own = list.filter(i => i.cat === "maps");
+  /* まとめマップがある分野では、先頭に intro の章（入口）もつける */
+  const maps = own.length ? ITEMS.filter(i => i.chapter === "intro").concat(own) : own;
   return sectionsHTML([
     { id:"sec-apps", label:"アプリ・教材", col:col(state.pick), list:list.filter(i => i.cat !== "maps") },
     { id:"sec-maps", label:"まとめマップ", col:CATCOL.maps, list:maps, inner:mapsInnerHTML(maps, false) }
@@ -596,11 +684,11 @@ function searchHTML() {
   if (!hit.length) {
     return '<div class="no-hit">「' + esc(state.q) + '」は見つかりませんでした。<br>キーワードを変えてみてください。</div>';
   }
-  const groups = RIKA.concat(["__other"]);
+  const groups = FIELDS.concat(["__other"]);
   return '<div class="now" style="color:#5C4F42;margin-bottom:22px">検索結果　' + hit.length + '件<br>'
     + '<span style="font-size:13px;font-weight:500;color:#6E6053">分野を問わず、全' + ITEMS.length + '件の中から探しています</span></div>'
     + groups.map(g => {
-        const sub = g === "__other" ? hit.filter(i => !RIKA.includes(i.badge)) : hit.filter(i => i.badge === g);
+        const sub = g === "__other" ? hit.filter(i => !FIELDS.includes(i.badge)) : hit.filter(i => i.badge === g);
         return sectionHTML(g === "__other" ? "そのほか" : g, g === "__other" ? NEUTRAL : FCOL[g], sub);
       }).join("");
 }
