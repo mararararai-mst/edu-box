@@ -31,7 +31,9 @@ body {
 .hd { padding: 40px 4px 26px; }
 .hd h1 { font-size: 40px; font-weight: 900; letter-spacing: .06em; line-height: 1.2; }
 .hd .sub { font-size: 15px; color: #6E6053; margin-top: 10px; letter-spacing: .04em; }
-.hd .total { font-size: 14px; font-weight: 700; color: #5C4F42; margin-top: 8px; letter-spacing: .04em; }
+.hd .total { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 12px; margin-top: 14px; color: #5C4F42; }
+.hd .total .big { font-size: 48px; font-weight: 900; line-height: 1; letter-spacing: .02em; }
+.hd .total .bd { font-size: 14px; font-weight: 700; letter-spacing: .04em; }
 .now-sub { font-size: 13px; color: #6E6053; margin: -6px 0 16px; }
 .hd .note { font-size: 12px; color: #6E6053; margin-top: 16px; line-height: 1.6; }
 
@@ -643,7 +645,8 @@ function topHTML(searching) {
   if (state.view === "entry") {
     return '<div class="hd"><h1>教材ボックス</h1>'
       + '<div class="sub">アイデアをカタチに。</div>'
-      + '<div class="total">アプリ ' + split(ITEMS).apps + ' ／ まとめマップ ' + split(ITEMS).maps + ' ／ 合計 ' + ITEMS.length + '</div>'
+      + '<div class="total"><span class="big">' + ITEMS.length + '</span>'
+      + '<span class="bd">アプリ ' + split(ITEMS).apps + ' ／ まとめマップ ' + split(ITEMS).maps + '</span></div>'
       + '<div class="note">校務PCで使うときは このHTMLをダウンロードして開いてね</div></div>';
   }
   const nm = state.view === "other" ? "そのほか" : state.pick;
