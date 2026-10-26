@@ -104,7 +104,7 @@ body {
 }
 .c .bar { position: absolute; left: 0; top: 0; bottom: 0; width: 9px; }
 .c .in { padding-left: 9px; }
-.c .ti { font-size: 16.5px; font-weight: 900; line-height: 1.4; margin-bottom: 6px; text-wrap: balance; }
+.c .ti { font-size: 16.5px; font-weight: 900; line-height: 1.4; margin-bottom: 6px; text-wrap: balance; white-space: pre-line; }   /* タイトルの「\n」で改行（サブタイトルつきの教材用） */
 
 .c .de { font-size: 11.5px; color: #7A6B5A; line-height: 1.6; margin-bottom: 10px; }
 .c .wd {
@@ -169,6 +169,10 @@ const ITEMS = [
 {cat:"chu1", badge:"物理", icon:"📷", title:"凸レンズとカメラの3Dラボ",
  desc:"光源をつかんで動かすと、光の道すじとスクリーンの像が立体で同時に変わる。カメラのピント合わせのしくみまで",
  meta:"中1理科 P.152-157", href:"https://mararararai-mst.github.io/lens-lab-3d/", added:"2026-09-26"},
+
+{cat:"chu1", badge:"物理", icon:"🪞", title:"鏡のセカイ\n像を見つけて線を引け",
+ desc:"プリントの鏡の問題を、同じ向き・同じ方眼で動かせる。見える範囲・光の道すじ・像から、文字の向き（3D）・全身鏡まで",
+ meta:"中1理科 P.144-147", href:"https://mararararai-mst.github.io/kagami-mondai-lab/", added:"2026-10-27"},
 
 {cat:"chu1", badge:"化学", icon:"🫧", title:"気体ラボ",
  desc:"薬品の組み合わせで気体をつくり、集め方を選ぶ。6つのテストで正体をあばくモードと気体ずかんつき",
